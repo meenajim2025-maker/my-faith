@@ -1,0 +1,35 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: myfaith_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: myfaith
+      POSTGRES_USER: myfaith_user
+      POSTGRES_PASSWORD: myfaith_password
+    ports:
+      - '5433:5432'
+    volumes:
+      - myfaith_postgres_data:/var/lib/postgresql/data
+      - ./backend/schema.sql:/docker-entrypoint-initdb.d/01_schema.sql
+      - ./backend/seed.sql:/docker-entrypoint-initdb.d/02_seed.sql
+
+  backend:
+    build: ./backend
+    container_name: myfaith_backend
+    restart: unless-stopped
+    depends_on:
+      - postgres
+    environment:
+      PORT: 4000
+      DATABASE_URL: postgres://myfaith_user:myfaith_password@postgres:5432/myfaith
+      CORS_ORIGIN: http://localhost:5173
+    ports:
+      - '4000:4000'
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    command: npm run dev
+
+volumes:
+  myfaith_postgres_data:

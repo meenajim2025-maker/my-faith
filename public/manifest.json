@@ -1,0 +1,11 @@
+{
+  "name": "My Faith",
+  "short_name": "My Faith",
+  "description": "A gentle Christian spirituality app for prayer, reflection and daily peace.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fff7ed",
+  "theme_color": "#1e293b",
+  "orientation": "portrait",
+  "icons": []
+}
