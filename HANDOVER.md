@@ -30,9 +30,13 @@ docker compose up --build
 ## Vercel (frontend only)
 
 - Vercel hosts the **static Vite build**, not the Docker Postgres/API unless you add serverless or a separate host for the API.
-- Deploy: install [Vercel CLI](https://vercel.com/docs/cli), run `vercel login` (account linked to **meenajim2025@gmail.com**), then from `my-faith`: `vercel` / `vercel --prod`.
+- **CLI:** `vercel` is installed globally (`npm install -g vercel`).
+- **Option A — browser login (interactive):** from `my-faith`, run `vercel login`, complete the browser/device flow, then `vercel --prod`.
+- **Option B — token (no browser on deploy):** create a token at [vercel.com/account/tokens](https://vercel.com/account/tokens), then in PowerShell:
+  - `$env:VERCEL_TOKEN = "paste_token_here"`
+  - `.\scripts\deploy-vercel.ps1`
 - In the Vercel project **Environment Variables**, set **`VITE_API_BASE_URL`** to your public API URL when the backend is deployed.
-- **HTTPS URL:** Created in the Vercel dashboard or printed by `vercel --prod` after login — not available without completing that step in this environment.
+- **HTTPS URL:** Printed at the end of `vercel --prod` or shown in the Vercel dashboard under the project’s **Domains**.
 
 ## Next agent checklist
 
