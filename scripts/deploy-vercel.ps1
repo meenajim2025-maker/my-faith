@@ -21,6 +21,12 @@ if (Test-Path $envFile) {
         $env:VERCEL_TOKEN = $val
       }
     }
+    if ($line -match '^\s*VERCEL_SCOPE\s*=\s*(.+)\s*$') {
+      $val = $matches[1].Trim().Trim('"').Trim("'")
+      if ($val.Length -gt 0) {
+        $env:VERCEL_SCOPE = $val
+      }
+    }
   }
 }
 
@@ -29,4 +35,9 @@ if (-not $env:VERCEL_TOKEN -or $env:VERCEL_TOKEN.Length -lt 10) {
   exit 1
 }
 
-vercel deploy --prod --yes --token $env:VERCEL_TOKEN
+$scopeArgs = @()
+if ($env:VERCEL_SCOPE -and $env:VERCEL_SCOPE.Length -gt 0) {
+  $scopeArgs = @('--scope', $env:VERCEL_SCOPE)
+}
+
+vercel deploy --prod --yes --token $env:VERCEL_TOKEN @scopeArgs
