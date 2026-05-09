@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { motion } from 'framer-motion'
 import {
   BookOpen,
@@ -15,15 +15,21 @@ import {
   Users,
 } from 'lucide-react'
 
-import { faithTopics } from './data/faithTopics.js'
-import { lifeScenarios } from './data/lifeScenarios.js'
-import { meditations } from './data/meditations.js'
-import { chants } from './data/chants.js'
+import { faithTopics as bundledFaithTopics } from './data/faithTopics.js'
+import { lifeScenarios as bundledLifeScenarios } from './data/lifeScenarios.js'
+import { meditations as bundledMeditations } from './data/meditations.js'
+import { chants as bundledChants } from './data/chants.js'
 import {
   buildPrayer,
   PRAYER_AGE_GROUPS,
   PRAYER_MOODS,
 } from './services/prayerBuilder.js'
+import { apiClient } from './services/apiClient.js'
+import {
+  loadPublishedContentFromApi,
+  mapJournalRow,
+  mapSavedPrayerRow,
+} from './services/loadAppContent.js'
 import {
   deletePrayer,
   getJournal,
@@ -50,9 +56,57 @@ function App() {
   const [length, setLength] = useState('short')
   const [query, setQuery] = useState('')
   const [timer, setTimer] = useState(3)
+  const [faithTopics, setFaithTopics] = useState(bundledFaithTopics)
+  const [lifeScenarios, setLifeScenarios] = useState(bundledLifeScenarios)
+  const [meditations, setMeditations] = useState(bundledMeditations)
+  const [chants, setChants] = useState(bundledChants)
+  const [dailyReflections, setDailyReflections] = useState([])
+  const [contentSource, setContentSource] = useState('bundled')
   const [savedPrayers, setSavedPrayers] = useState(() => getSavedPrayers())
   const [journalText, setJournalText] = useState('')
   const [journal, setJournal] = useState(() => getJournal())
+  const [useServerPersistence, setUseServerPersistence] = useState(false)
+
+  useEffect(() => {
+    let cancelled = false
+
+    async function hydrateFromApi() {
+      try {
+        const content = await loadPublishedContentFromApi()
+        if (cancelled) return
+
+        setFaithTopics(content.faithTopics)
+        setLifeScenarios(content.lifeScenarios)
+        setMeditations(content.meditations)
+        setChants(content.chants)
+        setDailyReflections(content.dailyReflections)
+        setContentSource('server')
+
+        try {
+          const [prayerRows, journalRows] = await Promise.all([
+            apiClient.getSavedPrayers(),
+            apiClient.getJournalEntries(),
+          ])
+          if (cancelled) return
+          setSavedPrayers(prayerRows.map(mapSavedPrayerRow))
+          setJournal(journalRows.map(mapJournalRow))
+          setUseServerPersistence(true)
+        } catch {
+          if (cancelled) return
+          setUseServerPersistence(false)
+        }
+      } catch {
+        if (cancelled) return
+        setContentSource('bundled')
+        setUseServerPersistence(false)
+      }
+    }
+
+    hydrateFromApi()
+    return () => {
+      cancelled = true
+    }
+  }, [])
 
   const prayer = useMemo(
     () =>
@@ -72,7 +126,23 @@ function App() {
       .includes(query.toLowerCase()),
   )
 
-  function handleSavePrayer() {
+  async function handleSavePrayer() {
+    if (useServerPersistence) {
+      try {
+        await apiClient.savePrayer({
+          ageGroup,
+          mood,
+          situation,
+          prayerText: prayer,
+        })
+        const rows = await apiClient.getSavedPrayers()
+        setSavedPrayers(rows.map(mapSavedPrayerRow))
+      } catch {
+        /* network or server */
+      }
+      return
+    }
+
     try {
       savePrayer(prayer)
       setSavedPrayers(getSavedPrayers())
@@ -81,14 +151,47 @@ function App() {
     }
   }
 
-  function handleDeletePrayer(id) {
-    if (!window.confirm('Remove this saved prayer from this device?')) return
+  async function handleDeletePrayer(id) {
+    if (
+      !window.confirm(
+        useServerPersistence
+          ? 'Remove this saved prayer from the server?'
+          : 'Remove this saved prayer from this device?',
+      )
+    ) {
+      return
+    }
+
+    if (useServerPersistence) {
+      try {
+        await apiClient.deletePrayer(id)
+        const rows = await apiClient.getSavedPrayers()
+        setSavedPrayers(rows.map(mapSavedPrayerRow))
+      } catch {
+        /* network or server */
+      }
+      return
+    }
+
     deletePrayer(id)
     setSavedPrayers(getSavedPrayers())
   }
 
-  function handleSaveJournal() {
+  async function handleSaveJournal() {
     if (!journalText.trim()) return
+
+    if (useServerPersistence) {
+      try {
+        await apiClient.saveJournalEntry(journalText.trim())
+        setJournalText('')
+        const rows = await apiClient.getJournalEntries()
+        setJournal(rows.map(mapJournalRow))
+      } catch {
+        /* network or server */
+      }
+      return
+    }
+
     try {
       saveJournalEntry(journalText.trim())
       setJournalText('')
@@ -118,6 +221,11 @@ function App() {
             <div>
               <h1>My Faith</h1>
               <p>A gentle Christian journey of love, prayer and daily peace</p>
+              <p className="muted" style={{ margin: '6px 0 0', fontSize: 13 }}>
+                {contentSource === 'server'
+                  ? 'Library loaded from your My Faith server.'
+                  : 'Using the built-in library. Start the API to sync the latest content.'}
+              </p>
             </div>
           </div>
 
@@ -189,6 +297,40 @@ function App() {
                 </p>
                 <span className="badge">Built on love of God and love of neighbour</span>
               </div>
+
+              {dailyReflections.length > 0 ? (
+                <div style={{ marginTop: 16 }}>
+                  <h2 className="section-title" style={{ marginBottom: 12 }}>
+                    Daily reflections
+                  </h2>
+                  <div className="grid-2">
+                    {dailyReflections.map((item) => (
+                      <div className="card" key={item.id}>
+                        <h3 style={{ margin: '0 0 8px', fontSize: 18 }}>{item.title}</h3>
+                        {item.theme ? (
+                          <p className="muted" style={{ margin: '0 0 8px', fontSize: 13 }}>
+                            {item.theme}
+                          </p>
+                        ) : null}
+                        <p className="muted" style={{ margin: '0 0 12px' }}>
+                          {item.text}
+                        </p>
+                        {item.action ? (
+                          <p className="badge" style={{ marginBottom: 8 }}>
+                            Try: {item.action}
+                          </p>
+                        ) : null}
+                        {item.prayer ? (
+                          <div className="reflection">
+                            <strong>Short prayer:</strong>
+                            <p style={{ marginBottom: 0 }}>{item.prayer}</p>
+                          </div>
+                        ) : null}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ) : null}
             </motion.div>
           ) : null}
 
@@ -253,7 +395,7 @@ function App() {
 
                     <div className="grid-4">
                       {scenario.steps.map((step, index) => (
-                        <div className="step" key={step}>
+                        <div className="step" key={`${scenario.id}-step-${index}`}>
                           <strong>{index + 1}.</strong> {step}
                         </div>
                       ))}

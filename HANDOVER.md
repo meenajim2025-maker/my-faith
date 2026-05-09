@@ -10,6 +10,7 @@
 
 - **Frontend:** Vite + React (`npm run dev`, `npm run build`). PWA via `vite-plugin-pwa` in `vite.config.js`.
 - **API client:** `src/services/apiClient.js` — `VITE_API_BASE_URL` (default `http://localhost:4000`).
+- **Content loading:** `src/services/loadAppContent.js` + `App.jsx` — on load, the app tries the API for faith topics, scenarios, meditations, chants, and daily reflections; if that fails, it keeps the bundled `src/data/*.js` copy. When content loads from the server, saved prayers and the journal sync via the API; otherwise they stay in the browser (localStorage).
 - **Backend:** Node (Express) + PostgreSQL in **`docker-compose.yml`** (`postgres` + `backend`, ports **5433** / **4000**).
 
 ## Commands
@@ -29,6 +30,7 @@ docker compose up --build
 
 ## Vercel (frontend only)
 
+- Example production site: **https://my-faith.vercel.app** (confirm current domain in the Vercel dashboard).
 - Vercel hosts the **static Vite build**, not the Docker Postgres/API unless you add serverless or a separate host for the API.
 - **CLI:** `vercel` is installed globally (`npm install -g vercel`).
 - **Option A — browser login (interactive):** from `my-faith`, run `vercel login`, complete the browser/device flow, then `vercel --prod`.
@@ -41,6 +43,6 @@ docker compose up --build
 ## Next agent checklist
 
 1. Confirm `git log` and remote if pushing to GitHub/GitLab.
-2. Wire `App.jsx` to `apiClient` if the product should load content from the API instead of only `src/data/*.js`.
-3. Production: secure DB passwords, CORS, and avoid committing `.env`.
-4. Clinical/safety copy is user-facing; keep disclaimers in UI.
+2. ~~Wire `App.jsx` to the API~~ — done (with bundled fallback and optional server sync for saved prayers / journal).
+3. Production: point **`VITE_API_BASE_URL`** at a **public** API URL; set **`CORS_ORIGIN`** on the backend to match the Vercel domain(s). Secure DB passwords and avoid committing `.env`.
+4. Safety copy is user-facing; keep disclaimers in UI.
