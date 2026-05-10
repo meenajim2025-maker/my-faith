@@ -11,6 +11,7 @@
 - **Frontend:** Vite + React (`npm run dev`, `npm run build`). PWA via `vite-plugin-pwa` in `vite.config.js`.
 - **API client:** `src/services/apiClient.js` — `VITE_API_BASE_URL` (default `http://localhost:4000`).
 - **Content loading:** `src/services/loadAppContent.js` + `App.jsx` — on load, the app tries the API for faith topics, scenarios, meditations, chants, and daily reflections; if that fails, it keeps the bundled `src/data/*.js` copy. When content loads from the server, saved prayers and the journal sync via the API; otherwise they stay in the browser (localStorage).
+- **Phase 3 UX (bundled):** First-visit onboarding (`FirstVisitOnboarding.jsx`, `onboarding.js`); **Walking with Jesus** (`jesusPathMoments.js`, `WalkingWithJesus.jsx`); **Life Mirror** (`lifeMirror.js`, `LifeMirror.jsx`); contemplative line-by-line prayer (`ContemplativePrayerView.jsx`, `splitPrayerLines.js`); **Quiet mode** (`quietMode.js`, `CalmPreferencesContext.jsx`); **Our promise** tab (`OurPromise.jsx`); gentle in-app banner (`GentleDailyBanner.jsx`); optional **browser daily reminder** (`useBrowserDailyReminder.js` — permission + local time, best-effort, no server).
 - **Backend:** Node (Express) + PostgreSQL in **`docker-compose.yml`** (`postgres` + `backend`, ports **5433** / **4000**).
 
 ## Commands

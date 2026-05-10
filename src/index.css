@@ -1,5 +1,7 @@
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  --font-sans: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  --font-display: 'Literata', Georgia, 'Times New Roman', serif;
+  font-family: var(--font-sans);
   color: #0f172a;
   background: #fff7ed;
   font-synthesis: none;
@@ -71,6 +73,8 @@ button {
 .brand h1 {
   margin: 0;
   font-size: 22px;
+  font-family: var(--font-display);
+  font-weight: 600;
 }
 
 .brand p {
@@ -173,6 +177,14 @@ button {
 .section-title {
   margin: 0 0 12px;
   font-size: 26px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+h2,
+h3 {
+  font-family: var(--font-display);
 }
 
 .muted {
@@ -292,6 +304,675 @@ textarea {
   line-height: 1.5;
 }
 
+/* Phase 3.1 — first visit (no login, calm first minute) */
+.first-visit-onboarding {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(20px, 4vw, 40px);
+  overflow: auto;
+}
+
+.first-visit-backdrop {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+      ellipse 120% 80% at 50% 20%,
+      rgba(255, 251, 235, 0.95),
+      transparent 55%
+    ),
+    radial-gradient(
+      ellipse 90% 70% at 80% 90%,
+      rgba(219, 234, 254, 0.55),
+      transparent 50%
+    ),
+    linear-gradient(165deg, #f8fafc 0%, #eef2ff 38%, #fffbeb 100%);
+}
+
+.first-visit-inner {
+  position: relative;
+  width: 100%;
+  max-width: 520px;
+  min-height: min(70vh, 520px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.first-visit-screen {
+  width: 100%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(28px, 5vw, 40px);
+}
+
+.first-visit-line {
+  margin: 0;
+  font-size: clamp(1.65rem, 5.2vw, 2.35rem);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  line-height: 1.35;
+  color: #334155;
+}
+
+.first-visit-hint {
+  margin: 0 0 8px;
+  font-size: 15px;
+  color: #64748b;
+  line-height: 1.5;
+  max-width: 36ch;
+}
+
+.first-visit-tiles {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+.first-visit-tile {
+  width: 100%;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  background: rgba(255, 255, 255, 0.72);
+  border-radius: 22px;
+  padding: 20px 22px;
+  text-align: center;
+  color: #1e293b;
+  box-shadow: 0 2px 16px rgba(15, 23, 42, 0.05);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.first-visit-tile:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(15, 23, 42, 0.08);
+  border-color: rgba(148, 163, 184, 0.55);
+}
+
+.first-visit-tile:focus-visible {
+  outline: 2px solid #93c5fd;
+  outline-offset: 3px;
+}
+
+.first-visit-tile-text {
+  font-size: clamp(1rem, 2.8vw, 1.12rem);
+  line-height: 1.45;
+  font-weight: 500;
+}
+
+.first-visit-promise-lead {
+  margin: 0;
+  font-size: clamp(1.12rem, 3.2vw, 1.35rem);
+  line-height: 1.55;
+  color: #334155;
+  font-weight: 500;
+}
+
+.first-visit-promise-sub {
+  display: block;
+  margin-top: 14px;
+  font-weight: 400;
+  color: #64748b;
+  font-size: 0.95em;
+  line-height: 1.6;
+}
+
+.first-visit-primary.first-visit-primary-button {
+  border: 0;
+  background: #1e293b;
+  color: #f8fafc;
+  padding: 14px 28px;
+  border-radius: 999px;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  box-shadow: 0 4px 20px rgba(30, 41, 59, 0.2);
+}
+
+.first-visit-primary.first-visit-primary-button:hover {
+  background: #0f172a;
+}
+
+.first-visit-primary.first-visit-primary-button:focus-visible {
+  outline: 2px solid #93c5fd;
+  outline-offset: 3px;
+}
+
+.first-visit-back {
+  border: 0;
+  background: transparent;
+  color: #94a3b8;
+  font-size: 14px;
+  padding: 8px 12px;
+  margin-top: -8px;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.first-visit-back:hover {
+  color: #64748b;
+}
+
+.first-visit-back:focus-visible {
+  outline: 2px solid #93c5fd;
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+/* Walking With Jesus — Phase 3.2 */
+.jesus-path {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.jesus-path-header {
+  background: linear-gradient(125deg, rgba(255, 251, 235, 0.9), rgba(239, 246, 255, 0.95));
+}
+
+.jesus-path-progress {
+  margin: 14px 0 8px;
+  font-size: 14px;
+  color: #64748b;
+}
+
+.jesus-path-progress-bar {
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(148, 163, 184, 0.25);
+  overflow: hidden;
+}
+
+.jesus-path-progress-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #94a3b8, #334155);
+  transition: width 0.35s ease;
+}
+
+.jesus-path-moment-title {
+  margin: 0 0 18px;
+  font-size: clamp(1.35rem, 3.5vw, 1.65rem);
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.jesus-path-block {
+  margin-bottom: 18px;
+}
+
+.jesus-path-label {
+  display: block;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #94a3b8;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.jesus-path-story {
+  margin: 0;
+  color: #475569;
+  line-height: 1.65;
+  font-size: 1.05rem;
+}
+
+.jesus-path-question {
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.5;
+  color: #1e293b;
+  font-weight: 500;
+}
+
+.jesus-path-reflection-text {
+  color: #334155;
+  line-height: 1.6;
+  font-size: 1.02rem;
+}
+
+.jesus-path-act {
+  margin-top: 8px;
+  padding: 16px 18px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #ecfdf5, #f0fdf4);
+  border: 1px solid rgba(167, 243, 208, 0.7);
+}
+
+.jesus-path-act-text {
+  margin: 8px 0 0;
+  color: #14532d;
+  line-height: 1.55;
+  font-size: 1.02rem;
+}
+
+.jesus-path-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.jesus-path-nav .primary-btn,
+.jesus-path-nav .secondary-btn {
+  min-width: 140px;
+}
+
+.jesus-path-footnote {
+  margin-top: 4px;
+  text-align: center;
+}
+
+/* Life Mirror — Phase 3.3 */
+.life-mirror {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.life-mirror-header {
+  background: linear-gradient(120deg, rgba(252, 231, 243, 0.35), rgba(239, 246, 255, 0.9));
+}
+
+.life-mirror-panel {
+  padding-bottom: 20px;
+}
+
+.life-mirror-step-title {
+  margin: 0 0 8px;
+  font-size: clamp(1.2rem, 3vw, 1.45rem);
+  color: #1e293b;
+}
+
+.life-mirror-hint {
+  margin: 0 0 16px;
+  color: #64748b;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.life-mirror-tiles {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 11px;
+}
+
+@media (min-width: 600px) {
+  .life-mirror-tiles {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.life-mirror-tile {
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 18px;
+  padding: 16px 14px;
+  font-size: 15px;
+  font-weight: 500;
+  color: #1e293b;
+  text-align: center;
+  line-height: 1.35;
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease,
+    border-color 0.18s ease;
+}
+
+.life-mirror-tile:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 22px rgba(15, 23, 42, 0.07);
+  border-color: rgba(148, 163, 184, 0.55);
+}
+
+.life-mirror-tile:focus-visible {
+  outline: 2px solid #93c5fd;
+  outline-offset: 2px;
+}
+
+.life-mirror-tile.selected {
+  border-color: #334155;
+  box-shadow: 0 4px 18px rgba(15, 23, 42, 0.1);
+}
+
+.life-mirror-nav-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.life-mirror-result-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.life-mirror-result {
+  background: linear-gradient(165deg, #ffffff 0%, #f8fafc 100%);
+}
+
+.life-mirror-chips {
+  margin: 0 0 16px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.life-mirror-chip {
+  display: inline-block;
+  padding: 5px 11px;
+  border-radius: 999px;
+  background: #f1f5f9;
+  color: #475569;
+  font-weight: 500;
+}
+
+.life-mirror-chip-muted {
+  color: #cbd5e1;
+}
+
+.life-mirror-block {
+  margin-bottom: 18px;
+}
+
+.life-mirror-label {
+  display: block;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #94a3b8;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.life-mirror-truth {
+  margin: 0;
+  font-size: 1.15rem;
+  line-height: 1.55;
+  color: #334155;
+  font-weight: 500;
+}
+
+.life-mirror-insight {
+  margin: 0;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: #475569;
+}
+
+.life-mirror-act {
+  margin-top: 6px;
+  padding: 16px 18px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #eff6ff, #f0fdf4);
+  border: 1px solid rgba(186, 230, 253, 0.65);
+}
+
+.life-mirror-act-text {
+  margin: 8px 0 0;
+  color: #1e3a5f;
+  line-height: 1.55;
+  font-size: 1.02rem;
+}
+
+.life-mirror-prayer-details {
+  margin-top: 16px;
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+  padding: 4px 14px 12px;
+  background: #fafafa;
+}
+
+.life-mirror-prayer-details summary {
+  cursor: pointer;
+  padding: 10px 0;
+  font-size: 15px;
+  font-weight: 500;
+  color: #475569;
+  list-style: none;
+}
+
+.life-mirror-prayer-details summary::-webkit-details-marker {
+  display: none;
+}
+
+.life-mirror-prayer {
+  margin: 0;
+  padding-top: 4px;
+  font-size: 1.05rem;
+  line-height: 1.55;
+  color: #334155;
+  font-style: italic;
+}
+
+.life-mirror-footnote {
+  text-align: center;
+}
+
+/* Contemplative prayer — Phase 3.4 */
+.contemplative-prayer {
+  margin-top: 18px;
+  padding: 22px;
+  border-radius: 28px;
+  background: linear-gradient(165deg, #f8fafc, #fffbeb);
+  border: 1px solid rgba(226, 232, 240, 0.9);
+}
+
+.contemplative-breath {
+  margin: 0 0 14px;
+  text-align: center;
+  font-size: 15px;
+  color: #64748b;
+  font-style: italic;
+}
+
+.contemplative-window {
+  min-height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 12px 8px;
+}
+
+.contemplative-line {
+  margin: 0;
+  font-size: clamp(1.2rem, 3.5vw, 1.55rem);
+  line-height: 1.55;
+  color: #1e293b;
+  font-family: var(--font-display);
+  font-weight: 500;
+}
+
+.contemplative-meta {
+  margin: 12px 0 16px;
+  text-align: center;
+  font-size: 13px;
+}
+
+.contemplative-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+/* Gentle daily welcome — Phase 3.8 */
+.gentle-daily-banner {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 10px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: linear-gradient(90deg, #ecfdf5, #eff6ff);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.25);
+}
+
+.gentle-daily-text {
+  margin: 0;
+  font-size: 15px;
+  color: #334155;
+  line-height: 1.45;
+}
+
+.gentle-daily-close {
+  border: 0;
+  background: transparent;
+  color: #64748b;
+  padding: 6px;
+  border-radius: 10px;
+  flex-shrink: 0;
+}
+
+.gentle-daily-close:hover {
+  background: rgba(255, 255, 255, 0.65);
+  color: #0f172a;
+}
+
+/* Our promise + header quiet toggle */
+.quiet-pill {
+  border: 1px solid #cbd5e1;
+  background: white;
+  color: #334155;
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.quiet-pill[aria-pressed='true'] {
+  background: #1e293b;
+  color: #f8fafc;
+  border-color: #1e293b;
+}
+
+.quiet-pill:focus-visible {
+  outline: 2px solid #93c5fd;
+  outline-offset: 2px;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.our-promise {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.our-promise-hero {
+  background: linear-gradient(120deg, rgba(236, 253, 245, 0.9), rgba(255, 255, 255, 1));
+}
+
+.our-promise-list {
+  list-style: none;
+  margin: 0;
+  padding: 18px 22px;
+  display: grid;
+  gap: 14px;
+}
+
+.our-promise-item {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  color: #334155;
+  line-height: 1.5;
+  font-size: 1.05rem;
+}
+
+.our-promise-icon {
+  color: #059669;
+  flex-shrink: 0;
+  margin-top: 3px;
+}
+
+.our-promise-prefs-title {
+  margin: 0 0 8px;
+  font-size: 1.25rem;
+}
+
+.our-promise-prefs-lead {
+  margin: 0 0 16px;
+}
+
+.our-promise-toggle {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 14px 0;
+  border-top: 1px solid #e2e8f0;
+  cursor: pointer;
+}
+
+.our-promise-toggle:first-of-type {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.our-promise-toggle input {
+  width: auto;
+  margin-top: 4px;
+  accent-color: #1e293b;
+}
+
+.our-promise-toggle .small {
+  font-size: 13px;
+  margin-top: 4px;
+}
+
+.our-promise-toggle-block {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 12px;
+}
+
+.our-promise-time-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-left: 28px;
+}
+
+.our-promise-time-row input[type='time'] {
+  width: auto;
+  max-width: 200px;
+  margin-top: 0;
+}
+
+.block {
+  display: block;
+}
+
+.our-promise-examples {
+  margin: 8px 0 0;
+  padding-left: 1.2rem;
+}
+
+.first-visit-line {
+  font-family: var(--font-display);
+}
+
 @media (max-width: 850px) {
   .container {
     grid-template-columns: 1fr;
@@ -314,9 +995,11 @@ textarea {
 
   .header-inner {
     align-items: flex-start;
+    flex-direction: column;
   }
 
-  .header-inner > .primary-btn {
-    display: none;
+  .header-actions {
+    width: 100%;
+    justify-content: flex-start;
   }
 }
