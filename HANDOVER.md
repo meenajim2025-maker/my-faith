@@ -2,7 +2,7 @@
 
 ## Rolling summary (update this when you ship a chunk)
 
-**Last updated:** 2026-05-09
+**Last updated:** 2026-05-10
 
 - **What it is:** Gentle Christian spirituality PWA — prayer builder, topics, life scenarios, meditations, chants, journal; optional Docker API + Postgres; Vite PWA deployable to Vercel.
 - **Product state:** First-visit onboarding (no login). **Walking with Jesus** + **Life Mirror** are live (bundled data). **Contemplative** line-by-line prayer. **Quiet mode** + **Our promise** (trust + prefs + optional browser reminder). **Our story** (Phase 4 identity, manifesto, journeys, ethics, launch framing). **Palette:** Aegean blue / violet / sage / honey (`--mf-*` in `index.css`).
@@ -10,7 +10,8 @@
 - **Living library (Phase 6):** **`LIVING-LIBRARY.md`** — three content layers (Core / Breath / Response), **12 canonical Jesus moments** (target set; app currently has 7 bundled), timeless daily reflections, age-aware tone, Life Mirror expansion rules, prayer word limits, silence principle, AI boundaries, editorial council mindset, growth = depth. **Blueprint only.**
 - **Gentle launch & stewardship (Phase 7):** **`GENTLE-LAUNCH.md`** — three-stage release (listening → quiet public → organic trust), praise/criticism responses, when to say no, stewardship model, sustainable funding ethics, **stop rule** (“if it stops feeling gentle, reassess”), future-you anchor. **Leadership blueprint only.**
 - **Data:** Faith topics, scenarios, meditations, chants load from API when up; else bundled `src/data`. Jesus Path + Life Mirror + Phase 4 copy are **local JS** only (not in DB yet).
-- **Git:** Recent commits include Phase 3 bundle + Phase 4 story/palette (`git log` for exact hashes).
+- **Git:** Full history on `master`. **GitHub:** if `git remote -v` is empty, create a new repository on GitHub and follow **§ GitHub (first push)** below — Cursor cannot push without a remote URL and your login.
+- **Live (HTTPS):** **https://my-faith.vercel.app** — deploy with `.\scripts\deploy-vercel.ps1` (uses `.env.vercel`; never commit that file).
 - **Open / next:** Align `src/data` and UI with **`CONTENT-CANON.md`** and **`LIVING-LIBRARY.md`** (e.g. grow Jesus Path to 12 moments, reflection categories, prayer caps); public API URL on Vercel (`VITE_API_BASE_URL`) + backend `CORS_ORIGIN`; optional CMS/API; content-team JSON editor; push notifications only if product wants a service beyond best-effort browser reminder.
 
 *Agents: after a meaningful change, edit the bullets above (especially **Last updated**, **Product state**, **Open / next**) so the next session does not lose context.*
@@ -56,6 +57,23 @@ docker compose up --build
   - `.\scripts\deploy-vercel.ps1`
 - In the Vercel project **Environment Variables**, set **`VITE_API_BASE_URL`** to your public API URL when the backend is deployed.
 - **HTTPS URL:** Printed at the end of `vercel --prod` or shown in the Vercel dashboard under the project’s **Domains**.
+
+## GitHub (first push)
+
+Use this when the code should live on GitHub as well as on this machine.
+
+1. On GitHub: **New repository** → name it (e.g. `my-faith`) → create **without** adding a README if you already have commits locally (avoids merge conflicts). Otherwise create with README and follow GitHub’s “push an existing repository” instructions.
+2. In PowerShell from the `my-faith` folder:
+
+```powershell
+cd "C:\Users\reias\OneDrive\Desktop\My Faith\my-faith"
+git remote add origin https://github.com/YOUR_GITHUB_USER/YOUR_REPO_NAME.git
+git push -u origin master
+```
+
+This repo currently uses the branch name **`master`**. If GitHub shows **`main`** as the default, either rename locally (`git branch -M main`) or set the remote default branch on GitHub to **master** — then push the branch name that matches.
+
+3. **Never push:** `.env`, `.env.vercel`, `.vercel`, or anything with tokens or database passwords (they should stay gitignored).
 
 ## Next agent checklist
 
