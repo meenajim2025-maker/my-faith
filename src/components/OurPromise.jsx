@@ -1,5 +1,7 @@
 import { BadgeCheck, Leaf } from 'lucide-react'
+import { globalEthics } from '../data/phase4Content.js'
 import { useCalmPreferences } from '../context/CalmPreferencesContext.jsx'
+import { applyQuietText } from '../services/quietMode.js'
 
 const commitments = [
   'It will never shame you.',
@@ -28,6 +30,8 @@ export default function OurPromise() {
     browserReminderTime,
     setBrowserReminderTime,
   } = useCalmPreferences()
+
+  const apply = (t) => (quietMode ? applyQuietText(t) : t)
 
   async function handleBrowserReminderToggle(next) {
     if (!next) {
@@ -76,6 +80,20 @@ export default function OurPromise() {
           </li>
         ))}
       </ul>
+
+      <div className="card our-promise-ethics-global">
+        <h3 className="our-promise-prefs-title" style={{ marginTop: 0 }}>
+          Global ethics &amp; trust
+        </h3>
+        <p className="muted" style={{ marginTop: 0 }}>
+          Plain language for people far beyond any one country or tradition.
+        </p>
+        <ul className="our-story-list our-story-list-highlight">
+          {globalEthics.map((line) => (
+            <li key={line}>{apply(line)}</li>
+          ))}
+        </ul>
+      </div>
 
       <div className="card our-promise-prefs">
         <h3 className="our-promise-prefs-title">Calm preferences</h3>

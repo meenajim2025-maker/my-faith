@@ -7,6 +7,7 @@ import {
   Compass,
   Feather,
   Footprints,
+  Globe,
   Heart,
   HeartHandshake,
   Home,
@@ -18,6 +19,7 @@ import {
   Users,
 } from 'lucide-react'
 
+import { positioningLine, taglines } from './data/phase4Content.js'
 import { jesusPathMoments } from './data/jesusPathMoments.js'
 import { faithTopics as bundledFaithTopics } from './data/faithTopics.js'
 import { lifeScenarios as bundledLifeScenarios } from './data/lifeScenarios.js'
@@ -52,6 +54,7 @@ import FirstVisitOnboarding from './components/FirstVisitOnboarding.jsx'
 import GentleDailyBanner from './components/GentleDailyBanner.jsx'
 import LifeMirror from './components/LifeMirror.jsx'
 import OurPromise from './components/OurPromise.jsx'
+import OurStory from './components/OurStory.jsx'
 import WalkingWithJesus from './components/WalkingWithJesus.jsx'
 import { useBrowserDailyReminder } from './hooks/useBrowserDailyReminder.js'
 
@@ -59,6 +62,8 @@ function getSectionLabel(id, quiet) {
   switch (id) {
     case 'home':
       return 'Home'
+    case 'story':
+      return 'Our story'
     case 'jesus':
       return quiet ? 'Walking with kindness' : 'Walking with Jesus'
     case 'learn':
@@ -82,6 +87,7 @@ function getSectionLabel(id, quiet) {
 
 const sectionSpecs = [
   { id: 'home', icon: Home },
+  { id: 'story', icon: Globe },
   { id: 'jesus', icon: Footprints },
   { id: 'learn', icon: BookOpen },
   { id: 'mirror', icon: HeartHandshake },
@@ -122,6 +128,14 @@ function App() {
   } = useCalmPreferences()
   const [contemplativePrayer, setContemplativePrayer] = useState(false)
   const [contemplativeAuto, setContemplativeAuto] = useState(false)
+  const [taglineIndex, setTaglineIndex] = useState(0)
+
+  useEffect(() => {
+    const id = window.setInterval(() => {
+      setTaglineIndex((i) => (i + 1) % taglines.length)
+    }, 7000)
+    return () => window.clearInterval(id)
+  }, [taglines.length])
 
   useBrowserDailyReminder(
     !showFirstVisitOnboarding && browserDailyReminder,
@@ -302,11 +316,7 @@ function App() {
 
             <div>
               <h1>My Faith</h1>
-              <p>
-                {quietMode
-                  ? soften('A gentle journey of love, prayer and daily peace')
-                  : 'A gentle Christian journey of love, prayer and daily peace'}
-              </p>
+              <p className="brand-positioning">{soften(positioningLine)}</p>
               <p className="muted" style={{ margin: '6px 0 0', fontSize: 13 }}>
                 {contentSource === 'server'
                   ? 'Library loaded from your My Faith server.'
@@ -359,6 +369,9 @@ function App() {
               <div className="card hero">
                 <Sparkles size={30} aria-hidden />
                 <h2>Faith explained gently</h2>
+                <p className="hero-tagline-rotator" aria-live="polite">
+                  {soften(taglines[taglineIndex])}
+                </p>
                 <p>
                   {soften(
                     'A non-argumentative, Jesus-centred app for teenagers, adults, older people and curious explorers. The heart is simple: love God, love one another, live with mercy, truth and peace.',
@@ -366,14 +379,28 @@ function App() {
                 </p>
               </div>
 
+              <div className="card our-story-home-cta">
+                <h2 className="section-title" style={{ fontSize: 22, marginBottom: 8 }}>
+                  Our story &amp; global welcome
+                </h2>
+                <p className="muted" style={{ margin: '0 0 14px' }}>
+                  {soften(
+                    'Identity, manifesto, three journeys, Quiet Mode, ethics, and a soft path to launch — written for the whole world.',
+                  )}
+                </p>
+                <button
+                  type="button"
+                  className="primary-btn"
+                  onClick={() => setTab('story')}
+                >
+                  Read our story
+                </button>
+              </div>
+
               <div className="card jesus-path-home-cta" style={{ marginTop: 16 }}>
                 <div style={{ display: 'flex', alignItems: 'flex-start', gap: 14 }}>
-                  <div
-                    className="brand-icon"
-                    style={{ flexShrink: 0, background: '#e0e7ff' }}
-                    aria-hidden
-                  >
-                    <Footprints size={24} strokeWidth={2} color="#3730a3" />
+                  <div className="brand-icon cta-icon cta-icon--jesus" aria-hidden>
+                    <Footprints size={24} strokeWidth={2} />
                   </div>
                   <div>
                     <h2 className="section-title" style={{ fontSize: 22, marginBottom: 8 }}>
@@ -397,12 +424,8 @@ function App() {
 
               <div className="card life-mirror-home-cta" style={{ marginTop: 16 }}>
                 <div style={{ display: 'flex', alignItems: 'flex-start', gap: 14 }}>
-                  <div
-                    className="brand-icon"
-                    style={{ flexShrink: 0, background: '#fce7f3' }}
-                    aria-hidden
-                  >
-                    <HeartHandshake size={24} strokeWidth={2} color="#9d174d" />
+                  <div className="brand-icon cta-icon cta-icon--mirror" aria-hidden>
+                    <HeartHandshake size={24} strokeWidth={2} />
                   </div>
                   <div>
                     <h2 className="section-title" style={{ fontSize: 22, marginBottom: 8 }}>
@@ -496,6 +519,12 @@ function App() {
                   </div>
                 </div>
               ) : null}
+            </motion.div>
+          ) : null}
+
+          {tab === 'story' ? (
+            <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}>
+              <OurStory onNavigate={setTab} onOpenPromise={() => setTab('promise')} />
             </motion.div>
           ) : null}
 
