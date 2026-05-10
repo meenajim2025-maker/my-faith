@@ -1,5 +1,17 @@
 # Handover — My Faith (my-faith)
 
+## Rolling summary (update this when you ship a chunk)
+
+**Last updated:** 2026-05-09
+
+- **What it is:** Gentle Christian spirituality PWA — prayer builder, topics, life scenarios, meditations, chants, journal; optional Docker API + Postgres; Vite PWA deployable to Vercel.
+- **Product state:** First-visit onboarding (no login). **Walking with Jesus** + **Life Mirror** are live (bundled data). **Contemplative** line-by-line prayer. **Quiet mode** + **Our promise** (trust + prefs + optional browser reminder). **Our story** (Phase 4 identity, manifesto, journeys, ethics, launch framing). **Palette:** Aegean blue / violet / sage / honey (`--mf-*` in `index.css`).
+- **Data:** Faith topics, scenarios, meditations, chants load from API when up; else bundled `src/data`. Jesus Path + Life Mirror + Phase 4 copy are **local JS** only (not in DB yet).
+- **Git:** Recent commits include Phase 3 bundle + Phase 4 story/palette (`git log` for exact hashes).
+- **Open / next:** Public API URL on Vercel (`VITE_API_BASE_URL`) + backend `CORS_ORIGIN`; optional: CMS/API for Jesus Path & Life Mirror; content-team JSON editor; push notifications only if product wants a service beyond best-effort browser reminder.
+
+*Agents: after a meaningful change, edit the bullets above (especially **Last updated**, **Product state**, **Open / next**) so the next session does not lose context.*
+
 ## Repo
 
 - **Path:** `My Faith/my-faith`
