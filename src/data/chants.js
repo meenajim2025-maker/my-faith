@@ -12,7 +12,7 @@ export const chants = [
   {
     id: 'kyrie',
     title: 'Kyrie eleison',
-    meaning: 'Lord, have mercy',
+    meaning: 'Sacred Love, have mercy',
     line: 'Kyrie eleison',
   },
   {
@@ -31,7 +31,7 @@ export const chants = [
     id: 'magnificat',
     title: 'Magnificat refrain',
     meaning: 'My soul gives thanks',
-    line: 'My soul gives thanks to the Lord',
+    line: 'My soul gives thanks to Sacred Love',
   },
 ]
 

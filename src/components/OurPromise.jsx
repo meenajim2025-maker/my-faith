@@ -25,6 +25,8 @@ export default function OurPromise() {
     setGentleDailyPrompt,
     quietMode,
     setQuietMode,
+    experienceMode,
+    setExperienceMode,
     browserDailyReminder,
     setBrowserDailyReminder,
     browserReminderTime,
@@ -101,6 +103,26 @@ export default function OurPromise() {
           Tune the app to your season — no account required. Everything stays on this device.
         </p>
 
+        <div className="our-promise-mode-field">
+          <label htmlFor="experience-mode-select" className="our-promise-prefs-title">
+            Experience mode
+          </label>
+          <p className="muted small" style={{ margin: '6px 0 10px' }}>
+            Neutral is the default — for everyone. Spiritual adds gentle sacred language. Quiet
+            uses fewer words.
+          </p>
+          <select
+            id="experience-mode-select"
+            value={experienceMode}
+            onChange={(e) => setExperienceMode(e.target.value)}
+            className="lm2-mode-select"
+          >
+            <option value="neutral">Neutral</option>
+            <option value="spiritual">Spiritual</option>
+            <option value="quiet">Quiet</option>
+          </select>
+        </div>
+
         <label className="our-promise-toggle">
           <input
             type="checkbox"
@@ -108,10 +130,9 @@ export default function OurPromise() {
             onChange={(e) => setQuietMode(e.target.checked)}
           />
           <span>
-            <strong>Quiet mode</strong>
+            <strong>Quick quiet</strong>
             <span className="muted block small">
-              Softer wording for explicit religious titles and names — same heart, gentler
-              language.
+              Same as choosing Quiet mode above — minimal words when you feel overwhelmed.
             </span>
           </span>
         </label>

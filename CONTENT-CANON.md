@@ -219,7 +219,58 @@ Every piece of content must pass **all five** tests:
 
 ---
 
-## 12. The Unspoken Promise of My Faith
+## 12. Universal Wisdom Canon (Gentle Thread)
+
+This canon sits **beside** the **Unparalleled Love** corpus — never replacing it, never arguing with other faiths.
+
+**Welcoming names (use in copy, not academic titles):**
+
+| Instead of | Use |
+|------------|-----|
+| Jesus | **Unparalleled Love** (or **Love Himself** when needed) |
+| Gospels | **the sacred stories** |
+| Bhagavad Gita / Gita | **the Dialogue of Courage** |
+| Upanishads | **the Wisdom of Stillness** |
+| Mary | **a faithful mother** |
+| Apostles | **companions on the path** |
+
+### Always
+
+- Centre **universal love** — one reality, many voices  
+- Explain complex ideas in **plain, hopeful** language  
+- Honour **women, the poor, the tired, and the overlooked** in stories and examples  
+- Teach **honest asking** as the door to guidance and healing  
+- Hold **hope** as stronger than bereavement and despair  
+
+### Never
+
+- Debate caste, rank, or inequality systems  
+- Glorify the **rich, famous, or powerful** as models  
+- Use the Gita to justify hatred, revenge, or cruelty  
+- Blame those who **cannot ask** (children, severe illness, profound mental struggle, oppression)  
+- Pretend prayer replaces **safeguarding, medical care, or justice** for the trapped  
+
+### Core teachings (plain language)
+
+| Theme | Heart of the teaching |
+|--------|------------------------|
+| **Image of love** | God entrusts humans with something of his own likeness — love waits for partners, not puppets. |
+| **Ask** | Honest asking opens guidance; without asking, love does not force a closed heart. |
+| **Act without hatred** | Do what protects the weak; do not let rage own the soul (Gita-shaped duty). |
+| **Those who cannot ask** | Worth unchanged; love meets them through mercy, carers, and justice. |
+| **Hope** | The last word — grief is honoured; despair is not shamed; one loving step still counts. |
+
+**Quiet Mode:** same heart; soften religious names; keep universal love and hope.
+
+### Wisdom themes (writers only — never name sources in UI)
+
+Inspiration is drawn quietly from universal human themes: release and stillness; return, mercy, and renewal; awareness and compassion; non-harm and truthfulness; duty, respect, and harmony; conscience under pressure; dignity, justice, and service; humble protection of the vulnerable.
+
+Registry: `src/language/wisdomThemes.js`. The First Path maps each moment to these themes.
+
+---
+
+## 13. The Unspoken Promise of My Faith
 
 The Canon exists to keep this promise:
 

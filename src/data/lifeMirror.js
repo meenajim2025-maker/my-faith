@@ -1,5 +1,9 @@
 /** @typedef {{ id: string, label: string }} LifeMirrorOption */
 
+import { SPIRITUAL_NAMES } from './spiritualLanguage.js'
+
+const { teacher, sacredStories, dialogueOfCourage } = SPIRITUAL_NAMES
+
 /** @type {LifeMirrorOption[]} */
 export const lifeMirrorWeights = [
   { id: 'anger', label: 'Anger' },
@@ -8,6 +12,7 @@ export const lifeMirrorWeights = [
   { id: 'guilt', label: 'Guilt' },
   { id: 'exhaustion', label: 'Exhaustion' },
   { id: 'confusion', label: 'Confusion' },
+  { id: 'despair', label: 'Grief / despair' },
 ]
 
 /** @type {LifeMirrorOption[]} */
@@ -23,36 +28,41 @@ export const lifeMirrorPlaces = [
 export const mirrorByWeight = {
   anger: {
     truth: 'When anger stays unspoken, it often turns into distance.',
-    jesusInsight: 'Jesus taught truth without cruelty — steady eyes, steady heart.',
-    prayer: 'Jesus, teach me strength without harm.',
+    jesusInsight: `${teacher} taught truth without cruelty — steady eyes, steady heart.`,
+    prayer: `${teacher}, teach me strength without harm.`,
   },
   fear: {
     truth: 'Fear often grows in the stories we rehearse about tomorrow.',
-    jesusInsight:
-      'In the Gospels, Jesus does not shame fear — he names it, then draws near.',
-    prayer: 'Jesus, stay close when my mind runs ahead.',
+    jesusInsight: `In ${sacredStories}, ${teacher} does not shame fear — love names it, then draws near.`,
+    prayer: `${teacher}, stay close when my mind runs ahead.`,
   },
   loneliness: {
     truth: 'Loneliness is not weakness; it is a human ache for belonging.',
-    jesusInsight: 'Jesus made time for people who felt unseen — with patience, not hurry.',
-    prayer: 'Jesus, meet me in this quiet.',
+    jesusInsight: `${teacher} made time for people who felt unseen — with patience, not hurry.`,
+    prayer: `${teacher}, meet me in this quiet.`,
   },
   guilt: {
     truth:
       'Guilt can signal love and conscience — but shame that attacks your dignity is not from God.',
-    jesusInsight: 'Jesus looked at people with mercy before he asked anything of them.',
-    prayer: 'Jesus, help me receive forgiveness and learn mercy.',
+    jesusInsight: `${teacher} looked at people with mercy before asking anything of them.`,
+    prayer: `${teacher}, help me receive forgiveness and learn mercy.`,
   },
   exhaustion: {
     truth: 'Exhaustion can be your mind and body asking for permission to be limited — not lazy.',
-    jesusInsight: 'Jesus welcomed weary people to rest without proving their worth.',
-    prayer: 'Jesus, give me one gentle breath of peace.',
+    jesusInsight: `${teacher} welcomed weary people to rest without proving their worth.`,
+    prayer: `${teacher}, give me one gentle breath of peace.`,
   },
   confusion: {
     truth:
       'Confusion can mean your heart is honest enough to admit you do not have all the answers.',
-    jesusInsight: 'Jesus welcomed questions more than fake certainty.',
-    prayer: 'Jesus, walk with me in the fog.',
+    jesusInsight: `${teacher} welcomed questions more than fake certainty.`,
+    prayer: `${teacher}, walk with me in the fog.`,
+  },
+  despair: {
+    truth:
+      'When bereavement or loss feels endless, despair is pain looking for air — not proof that you have failed.',
+    jesusInsight: `${teacher} wept at a grave. ${dialogueOfCourage} does not mock tears. Hope begins by telling the truth about hurt.`,
+    prayer: 'God of comfort, stay with me in this darkness until I can breathe again.',
   },
 }
 
@@ -117,6 +127,16 @@ export const actByWeightAndPlace = {
       'Say: “I’m unsure — can we slow this down?” Pace is a form of love.',
     'self-worth':
       'Name one thing you know today; hold that small ground without forcing the rest.',
+  },
+  despair: {
+    family:
+      'Let someone know you are hurting — one honest sentence; you do not need a speech.',
+    work: 'Pause one demand today; grief and exhaustion are not laziness.',
+    school: 'Tell one safe adult or friend: “I’m not okay” — that is courage, not weakness.',
+    relationships:
+      'Ask for company without fixing: “Could you sit with me for a few minutes?”',
+    'self-worth':
+      'Place a hand on your chest; breathe; whisper: I am still worthy of love in this pain.',
   },
 }
 

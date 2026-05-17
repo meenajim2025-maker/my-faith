@@ -6,7 +6,7 @@ function pathOptionsFor(quietMode) {
     { id: 'peace', label: 'I’m looking for peace' },
     {
       id: 'curious',
-      label: quietMode ? 'I’m curious about meaning and faith' : 'I’m curious about Christian faith',
+      label: quietMode ? 'I’m curious about meaning and faith' : 'I’m curious about spiritual life',
     },
     { id: 'tired', label: 'I believe, but I feel tired' },
   ]
@@ -48,6 +48,11 @@ export default function FirstVisitOnboarding({ onComplete, quietMode = false }) 
             >
               <p id="first-visit-heading" className="first-visit-line">
                 You are welcome here.
+              </p>
+              <p className="first-visit-universal">
+                {quietMode
+                  ? 'This is a quiet place for universal love — hope stronger than despair, wisdom for hard questions, and room for those the world overlooks.'
+                  : 'This is a gentle place for universal love — the way of Unparalleled Love, and timeless wisdom such as the Dialogue of Courage — where hope is stronger than despair and the poor are never forgotten.'}
               </p>
               <button
                 type="button"
@@ -103,7 +108,8 @@ export default function FirstVisitOnboarding({ onComplete, quietMode = false }) 
                 This is not about arguments or pressure.
                 <br />
                 <span className="first-visit-promise-sub">
-                  It is about love, meaning, and learning how to live well.
+                  It is about universal love — asking honestly, acting kindly, and holding hope for
+                  those who cannot ask alone.
                 </span>
               </p>
               <button

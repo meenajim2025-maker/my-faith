@@ -1,3 +1,7 @@
+import { SPIRITUAL_NAMES } from './spiritualLanguage.js'
+
+const { teacher, faithfulMother, loveHimself } = SPIRITUAL_NAMES
+
 /**
  * @typedef {{
  *   id: string
@@ -32,15 +36,14 @@ export const meditations = [
     duration: 3,
     theme: 'Calm',
     script:
-      'Place your hand over your heart. Breathe slowly. Say quietly: Lord, bring peace to my thoughts. Bring peace to my words. Bring peace to my actions. Let me become a small sign of peace today.',
+      'Place your hand over your heart. Breathe slowly. Say quietly: Sacred Love, bring peace to my thoughts. Bring peace to my words. Bring peace to my actions. Let me become a small sign of peace today.',
   },
   {
     id: 'mary',
-    title: 'With Mary',
+    title: `With ${faithfulMother}`,
     duration: 4,
     theme: 'Trust',
-    script:
-      "Imagine Mary listening with trust. Ask for a heart that listens before reacting. Ask for courage to say yes to goodness. End with: May I carry Christ's love quietly into the world.",
+    script: `Imagine ${faithfulMother} listening with trust. Ask for a heart that listens before reacting. Ask for courage to say yes to goodness. End with: May I carry ${loveHimself}'s love quietly into the world.`,
   },
 ]
 

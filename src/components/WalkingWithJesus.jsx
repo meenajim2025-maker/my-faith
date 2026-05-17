@@ -1,8 +1,15 @@
 import { useEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { jesusPathQuietTitles } from '../data/jesusPathMoments.js'
+import { lovePathQuietTitles } from '../data/jesusPathMoments.js'
+import { UI_LABELS } from '../data/spiritualLanguage.js'
 import { useCalmPreferences } from '../context/CalmPreferencesContext.jsx'
+import { applySpiritualDisplayText } from '../data/spiritualLanguage.js'
 import { applyQuietText } from '../services/quietMode.js'
+
+function displayText(text, quietMode) {
+  const base = applySpiritualDisplayText(text)
+  return quietMode ? applyQuietText(base) : base
+}
 import { loadJson, saveJson } from '../services/storage.js'
 
 const STORAGE_KEY = 'jesus_path_moment_index'
@@ -41,12 +48,12 @@ export default function WalkingWithJesus({ moments }) {
   }
 
   const momentTitle = quietMode
-    ? jesusPathQuietTitles[moment.id] || moment.title
+    ? lovePathQuietTitles[moment.id] || moment.title
     : moment.title
-  const storyText = quietMode ? applyQuietText(moment.story) : moment.story
-  const reflectionText = quietMode ? applyQuietText(moment.reflection) : moment.reflection
-  const actText = quietMode ? applyQuietText(moment.smallAct) : moment.smallAct
-  const pathTitle = quietMode ? 'Walking with kindness' : 'Walking With Jesus'
+  const storyText = displayText(moment.story, quietMode)
+  const reflectionText = displayText(moment.reflection, quietMode)
+  const actText = displayText(moment.smallAct, quietMode)
+  const pathTitle = quietMode ? UI_LABELS.pathSectionQuiet : UI_LABELS.pathSection
 
   return (
     <div className="jesus-path">

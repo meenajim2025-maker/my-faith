@@ -1,10 +1,15 @@
 /** Phase 4 — global story, identity & positioning (source for UI + press tone). */
 
+import { SPIRITUAL_NAMES, UI_LABELS } from './spiritualLanguage.js'
+
+const { teacher } = SPIRITUAL_NAMES
+
 export const positioningLine =
-  'My Faith is a gentle place to explore Christian spirituality, love, and daily wisdom without pressure or argument.'
+  'My Faith is a gentle path into spirituality for all human beings — including those with no spiritual experience yet.'
 
 export const taglines = [
   'Faith, explained gently.',
+  'Universal love — hope stronger than despair.',
   'A quiet place for a loud world.',
   'Walk gently. Live deeply.',
   'Where love comes before arguments.',
@@ -12,20 +17,23 @@ export const taglines = [
 ]
 
 export const whatMyFaithIs =
-  'A quiet, human space to explore love, meaning, faith, and life through Jesus Christ.'
+  `A quiet, human space to explore love, meaning, faith, and life through ${teacher} and timeless wisdom.`
 
 export const whatMyFaithIsNot = [
   'Not a church replacement',
   'Not an argument',
   'Not a doctrine platform',
-  'Not culture-war Christianity',
+  'Not culture-war religion',
   'Not a rulebook',
 ]
 
 export const manifestoParagraphs = [
   'Welcome to My Faith.',
   'This is not a place for arguments or pressure.',
-  'It is a place to pause, reflect, and explore the heart of Christian spirituality — love of God, love of neighbour, and the wisdom of Jesus Christ lived quietly in daily life.',
+  `It is a place to pause, reflect, and explore love of God, love of neighbour, the way of ${teacher}, and the universal thread in the Dialogue of Courage and the Wisdom of Stillness — one love, many voices.`,
+  'We lift up women, the poor, the tired, and the overlooked — not the rich, famous, or powerful.',
+  'We hold a hard truth gently: God made us to carry something of his own image, so love often waits for us to ask before acting — yet those who cannot ask are not forgotten.',
+  'Hope is the last word — stronger than bereavement and despair when we let universal love lead.',
   'You do not need to believe everything to begin.',
   'You do not need to belong to ask questions.',
   'If you are tired, searching, curious, faithful, unsure, or simply human — you are welcome here.',
@@ -60,17 +68,31 @@ export const threeJourneys = [
   },
   {
     id: 'jesus',
-    title: 'The Jesus Journey',
+    title: UI_LABELS.loveJourney,
     for: ['seekers', 'doubters', 'wounded believers', 'the curious'],
     focus: [
-      'how Jesus loved',
-      'how Jesus spoke',
-      'how Jesus treated people',
-      'how Jesus faced suffering',
-      'how Jesus forgave',
+      `how ${teacher} loved`,
+      `how ${teacher} spoke`,
+      `how ${teacher} treated people`,
+      `how ${teacher} faced suffering`,
+      `how ${teacher} forgave`,
     ],
     cta: 'Walk the moments',
     tab: 'jesus',
+  },
+  {
+    id: 'hope',
+    title: 'The Universal Hope Journey',
+    for: ['grief', 'despair', 'deep questions', 'interfaith seekers', 'those who care for the helpless'],
+    focus: [
+      'universal love',
+      'asking and receiving',
+      'those who cannot speak',
+      'women and the poor in sacred story',
+      'hope beyond bereavement',
+    ],
+    cta: 'Open universal hope',
+    tab: 'hope',
   },
   {
     id: 'daily',
@@ -87,16 +109,16 @@ export const uniqueSeven = [
   'It never argues',
   'It never rushes belief',
   'It respects atheists',
-  'It centres Jesus without weaponising him',
+  `It centres ${teacher} without weaponising love`,
   'It teaches through life, not rules',
   'It values silence as much as text',
 ]
 
 export const quietModePublic = {
   lead:
-    'Quiet Mode means: no labels, no “church language”, no insider terms, and no pressure — while love, meaning, and Jesus’ wisdom remain (sometimes unnamed, but present).',
+    'Quiet Mode means: even softer labels, no insider terms, and no pressure — while love, meaning, and wisdom remain.',
   invites:
-    'This invites non-Christians, people hurt by religion, schools, counsellors, and interfaith use — and helps make My Faith welcome in many countries.',
+    'This invites people hurt by religion, schools, counsellors, and interfaith use — and helps make My Faith welcome in many countries.',
 }
 
 export const globalEthics = [
@@ -104,7 +126,7 @@ export const globalEthics = [
   'We will not exploit fear.',
   'We will not sell personal data.',
   'We will not tell you who to vote for, hate, or fear.',
-  'We aim only to encourage love, truth, mercy, and hope — as Jesus taught.',
+  `We aim only to encourage love, truth, mercy, and hope — as ${teacher} taught.`,
 ]
 
 export const launchSoft = [
@@ -130,6 +152,6 @@ export const visionFiveYears = [
   'A school reflection resource',
   'A chaplaincy companion',
   'A spiritual safe space',
-  'A gentle gateway to Christian faith',
-  'A model for humane Christianity online',
+  'A gentle gateway to spiritual life',
+  'A model for humane faith online',
 ]

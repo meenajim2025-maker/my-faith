@@ -6,7 +6,13 @@ import {
   lifeMirrorPlaces,
   lifeMirrorWeights,
 } from '../data/lifeMirror.js'
+import { applySpiritualDisplayText, UI_LABELS } from '../data/spiritualLanguage.js'
 import { applyQuietText } from '../services/quietMode.js'
+
+function displayText(text, quietMode) {
+  const base = applySpiritualDisplayText(text)
+  return quietMode ? applyQuietText(base) : base
+}
 
 const fade = {
   initial: { opacity: 0, y: 10 },
@@ -25,7 +31,7 @@ export default function LifeMirror() {
     weightId && placeId ? getLifeMirrorResponse(weightId, placeId) : null
 
   const intro =
-    'A quiet reflection — not a verdict. Choose what feels true; the app mirrors back gentleness, a Jesus-centred insight, and one grounding step.'
+    'A quiet reflection — not a verdict. Choose what feels true; the app mirrors back gentleness, a love-centred insight, and one grounding step.'
 
   return (
     <div className="life-mirror">
@@ -34,7 +40,7 @@ export default function LifeMirror() {
           Life Mirror
         </h2>
         <p className="muted" style={{ margin: 0 }}>
-          {quietMode ? applyQuietText(intro) : intro}
+          {displayText(intro, quietMode)}
         </p>
       </header>
 
@@ -128,33 +134,33 @@ export default function LifeMirror() {
               <section className="life-mirror-block" aria-label="A truth">
                 <span className="life-mirror-label">A truth</span>
                 <p className="life-mirror-truth">
-                  {quietMode ? applyQuietText(mirror.truth) : mirror.truth}
+                  {displayText(mirror.truth, quietMode)}
                 </p>
               </section>
 
               <section
                 className="life-mirror-block"
-                aria-label={quietMode ? 'A mercy-shaped insight' : 'A Jesus-centred insight'}
+                aria-label={quietMode ? UI_LABELS.insightLabelQuiet : UI_LABELS.insightLabel}
               >
                 <span className="life-mirror-label">
-                  {quietMode ? 'A mercy-shaped insight' : 'A Jesus-centred insight'}
+                  {quietMode ? UI_LABELS.insightLabelQuiet : UI_LABELS.insightLabel}
                 </span>
                 <p className="life-mirror-insight">
-                  {quietMode ? applyQuietText(mirror.jesusInsight) : mirror.jesusInsight}
+                  {displayText(mirror.jesusInsight, quietMode)}
                 </p>
               </section>
 
               <section className="life-mirror-act" aria-label="Try today">
                 <span className="life-mirror-label">Try today</span>
                 <p className="life-mirror-act-text">
-                  {quietMode ? applyQuietText(mirror.act) : mirror.act}
+                  {displayText(mirror.act, quietMode)}
                 </p>
               </section>
 
               <details className="life-mirror-prayer-details">
                 <summary>{quietMode ? 'If you want a short phrase' : 'If you want to pray'}</summary>
                 <p className="life-mirror-prayer">
-                  {quietMode ? applyQuietText(mirror.prayer) : mirror.prayer}
+                  {displayText(mirror.prayer, quietMode)}
                 </p>
               </details>
             </article>

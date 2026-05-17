@@ -17,6 +17,9 @@ import {
   Sparkles,
   Sun,
   Users,
+  Sprout,
+  Sunrise,
+  ScrollText,
 } from 'lucide-react'
 
 import { positioningLine, taglines } from './data/phase4Content.js'
@@ -25,12 +28,10 @@ import { faithTopics as bundledFaithTopics } from './data/faithTopics.js'
 import { lifeScenarios as bundledLifeScenarios } from './data/lifeScenarios.js'
 import { meditations as bundledMeditations } from './data/meditations.js'
 import { chants as bundledChants } from './data/chants.js'
+import { getBundledDailyReflections } from './data/dailyReflections.js'
 import { useCalmPreferences } from './context/CalmPreferencesContext.jsx'
-import {
-  buildPrayer,
-  PRAYER_AGE_GROUPS,
-  PRAYER_MOODS,
-} from './services/prayerBuilder.js'
+import ReflectionBuilder from './components/ReflectionBuilder.jsx'
+import { applySpiritualDisplayText, UI_LABELS } from './data/spiritualLanguage.js'
 import { applyQuietText } from './services/quietMode.js'
 import { apiClient } from './services/apiClient.js'
 import {
@@ -52,9 +53,16 @@ import {
 import ContemplativePrayerView from './components/ContemplativePrayerView.jsx'
 import FirstVisitOnboarding from './components/FirstVisitOnboarding.jsx'
 import GentleDailyBanner from './components/GentleDailyBanner.jsx'
-import LifeMirror from './components/LifeMirror.jsx'
+import LifeMirror from './features/lifeMirror/LifeMirror.jsx'
+import { buildCopyText } from './features/lifeMirror/lifeMirrorUtils.js'
+import FirstPath from './features/firstPath/FirstPath.jsx'
+import StartHere from './features/startHere/StartHere.jsx'
+import StoryPaths from './features/storyPaths/StoryPaths.jsx'
+import HomeStoryPathsIntro from './features/storyPaths/HomeStoryPathsIntro.jsx'
+import { buildFirstPathCopyText } from './features/firstPath/firstPathUtils.js'
 import OurPromise from './components/OurPromise.jsx'
 import OurStory from './components/OurStory.jsx'
+import UniversalHope from './components/UniversalHope.jsx'
 import WalkingWithJesus from './components/WalkingWithJesus.jsx'
 import { useBrowserDailyReminder } from './hooks/useBrowserDailyReminder.js'
 
@@ -62,14 +70,22 @@ function getSectionLabel(id, quiet) {
   switch (id) {
     case 'home':
       return 'Home'
+    case 'starthere':
+      return 'Start Here'
+    case 'storypaths':
+      return 'Story Paths'
     case 'story':
       return 'Our story'
+    case 'hope':
+      return quiet ? 'Universal hope' : 'Universal hope'
     case 'jesus':
-      return quiet ? 'Walking with kindness' : 'Walking with Jesus'
+      return quiet ? UI_LABELS.pathSectionQuiet : UI_LABELS.pathSection
     case 'learn':
-      return quiet ? 'Simple reflection' : 'Simple Faith'
+      return quiet ? UI_LABELS.learnSectionQuiet : UI_LABELS.learnSection
     case 'mirror':
       return 'Life Mirror'
+    case 'firstpath':
+      return 'The First Path'
     case 'life':
       return 'Life Scenarios'
     case 'prayer':
@@ -87,10 +103,14 @@ function getSectionLabel(id, quiet) {
 
 const sectionSpecs = [
   { id: 'home', icon: Home },
+  { id: 'starthere', icon: Sunrise },
+  { id: 'storypaths', icon: ScrollText },
   { id: 'story', icon: Globe },
+  { id: 'hope', icon: Heart },
   { id: 'jesus', icon: Footprints },
   { id: 'learn', icon: BookOpen },
   { id: 'mirror', icon: HeartHandshake },
+  { id: 'firstpath', icon: Sprout },
   { id: 'life', icon: Compass },
   { id: 'prayer', icon: Feather },
   { id: 'meditate', icon: Sun },
@@ -100,8 +120,7 @@ const sectionSpecs = [
 
 function App() {
   const [tab, setTab] = useState('home')
-  const [ageGroup, setAgeGroup] = useState('Explorer')
-  const [mood, setMood] = useState('Seeking peace')
+  const [builtReflectionText, setBuiltReflectionText] = useState('')
   const [addressTo, setAddressTo] = useState('God')
   const [situation, setSituation] = useState('')
   const [length, setLength] = useState('short')
@@ -111,7 +130,10 @@ function App() {
   const [lifeScenarios, setLifeScenarios] = useState(bundledLifeScenarios)
   const [meditations, setMeditations] = useState(bundledMeditations)
   const [chants, setChants] = useState(bundledChants)
-  const [dailyReflections, setDailyReflections] = useState([])
+  const [dailyReflections, setDailyReflections] = useState(() =>
+    getBundledDailyReflections('neutral'),
+  )
+  const [usesBundledReflections, setUsesBundledReflections] = useState(true)
   const [contentSource, setContentSource] = useState('bundled')
   const [savedPrayers, setSavedPrayers] = useState(() => getSavedPrayers())
   const [journalText, setJournalText] = useState('')
@@ -123,12 +145,38 @@ function App() {
   const {
     quietMode,
     setQuietMode,
+    experienceMode,
+    setExperienceMode,
     browserDailyReminder,
     browserReminderTime,
   } = useCalmPreferences()
   const [contemplativePrayer, setContemplativePrayer] = useState(false)
   const [contemplativeAuto, setContemplativeAuto] = useState(false)
   const [taglineIndex, setTaglineIndex] = useState(0)
+  const [storyPathsIntent, setStoryPathsIntent] = useState(
+    /** @type {{ storyId?: string | null; tag?: string | null }} */ ({}),
+  )
+
+  function goToStoryPaths(intent = {}) {
+    setStoryPathsIntent(intent)
+    setTab('storypaths')
+    window.scrollTo(0, 0)
+  }
+
+  function handleHomeFeeling(item) {
+    if (item.storyId) {
+      goToStoryPaths({ storyId: item.storyId })
+      return
+    }
+    if (item.tag) {
+      goToStoryPaths({ tag: item.tag })
+      return
+    }
+    if (item.tab) {
+      setTab(item.tab)
+      window.scrollTo(0, 0)
+    }
+  }
 
   useEffect(() => {
     const id = window.setInterval(() => {
@@ -160,7 +208,13 @@ function App() {
         setLifeScenarios(content.lifeScenarios)
         setMeditations(content.meditations)
         setChants(content.chants)
-        setDailyReflections(content.dailyReflections)
+        if (content.dailyReflections.length > 0) {
+          setDailyReflections(content.dailyReflections)
+          setUsesBundledReflections(false)
+        } else {
+          setUsesBundledReflections(true)
+          setDailyReflections(getBundledDailyReflections(experienceMode))
+        }
         setContentSource('server')
 
         try {
@@ -179,6 +233,8 @@ function App() {
       } catch {
         if (cancelled) return
         setContentSource('bundled')
+        setUsesBundledReflections(true)
+        setDailyReflections(getBundledDailyReflections(experienceMode))
         setUseServerPersistence(false)
       }
     }
@@ -189,25 +245,20 @@ function App() {
     }
   }, [])
 
-  const prayer = useMemo(
-    () =>
-      buildPrayer({
-        ageGroup,
-        mood,
-        situation,
-        addressTo,
-        length,
-      }),
-    [ageGroup, mood, situation, addressTo, length],
-  )
+  useEffect(() => {
+    if (!usesBundledReflections) return
+    setDailyReflections(getBundledDailyReflections(experienceMode))
+  }, [experienceMode, usesBundledReflections])
 
   const displayPrayer = useMemo(
-    () => (quietMode ? applyQuietText(prayer) : prayer),
-    [quietMode, prayer],
+    () => (quietMode ? applyQuietText(builtReflectionText) : builtReflectionText),
+    [quietMode, builtReflectionText],
   )
 
-  const soften = (text) => (quietMode ? applyQuietText(text) : text)
-
+  const soften = (text) => {
+    const base = applySpiritualDisplayText(text)
+    return quietMode ? applyQuietText(base) : base
+  }
   const filteredScenarios = lifeScenarios.filter((scenario) =>
     `${scenario.title} ${scenario.trigger} ${scenario.principle}`
       .toLowerCase()
@@ -218,10 +269,10 @@ function App() {
     if (useServerPersistence) {
       try {
         await apiClient.savePrayer({
-          ageGroup,
-          mood,
+          ageGroup: 'Explorer',
+          mood: 'Personal reflection',
           situation,
-          prayerText: prayer,
+          prayerText: builtReflectionText,
         })
         const rows = await apiClient.getSavedPrayers()
         setSavedPrayers(rows.map(mapSavedPrayerRow))
@@ -232,7 +283,7 @@ function App() {
     }
 
     try {
-      savePrayer(prayer)
+      savePrayer(builtReflectionText)
       setSavedPrayers(getSavedPrayers())
     } catch {
       /* quota or private mode */
@@ -263,6 +314,56 @@ function App() {
 
     deletePrayer(id)
     setSavedPrayers(getSavedPrayers())
+  }
+
+  async function handleFirstPathSave(payload) {
+    const text = buildFirstPathCopyText(
+      payload.summary,
+      payload.visitedMomentIds,
+      payload.mode,
+    )
+    const entry = `The First Path (${payload.mode})\n\n${text}`
+
+    if (useServerPersistence) {
+      try {
+        await apiClient.saveJournalEntry(entry)
+        const rows = await apiClient.getJournalEntries()
+        setJournal(rows.map(mapJournalRow))
+      } catch {
+        /* network */
+      }
+      return
+    }
+
+    try {
+      saveJournalEntry(entry)
+      setJournal(getJournal())
+    } catch {
+      /* quota */
+    }
+  }
+
+  async function handleLifeMirrorSave(payload) {
+    const text = buildCopyText(payload.summary)
+    const entry = `Life Mirror (${payload.mode})\n\n${text}`
+
+    if (useServerPersistence) {
+      try {
+        await apiClient.saveJournalEntry(entry)
+        const rows = await apiClient.getJournalEntries()
+        setJournal(rows.map(mapJournalRow))
+      } catch {
+        /* network */
+      }
+      return
+    }
+
+    try {
+      saveJournalEntry(entry)
+      setJournal(getJournal())
+    } catch {
+      /* quota */
+    }
   }
 
   async function handleSaveJournal() {
@@ -366,18 +467,80 @@ function App() {
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
             >
-              <div className="card hero">
+              <HomeStoryPathsIntro
+                mode={experienceMode}
+                onOpenStoryPaths={() => goToStoryPaths()}
+                onOpenFeaturedStory={() => goToStoryPaths({ storyId: 'angry-message' })}
+                onHomeFeeling={handleHomeFeeling}
+              />
+
+              <StartHere
+                embedded
+                mode={experienceMode}
+                showModeToggle
+                onModeChange={setExperienceMode}
+              />
+
+              <div className="card hero" style={{ marginTop: 16 }}>
                 <Sparkles size={30} aria-hidden />
-                <h2>Faith explained gently</h2>
+                <h2>Inner skills for real life</h2>
                 <p className="hero-tagline-rotator" aria-live="polite">
                   {soften(taglines[taglineIndex])}
                 </p>
-                <p>
-                  {soften(
-                    'A non-argumentative, Jesus-centred app for teenagers, adults, older people and curious explorers. The heart is simple: love God, love one another, live with mercy, truth and peace.',
-                  )}
+                <p className="muted">
+                  Interactive stories, gentle reflection, and hope — for everyone, including
+                  those with no spiritual background yet.
                 </p>
               </div>
+
+              <div className="card first-path-home-cta" style={{ marginTop: 16 }}>
+                <div style={{ display: 'flex', alignItems: 'flex-start', gap: 14 }}>
+                  <div className="brand-icon cta-icon cta-icon--firstpath" aria-hidden>
+                    <Sprout size={24} strokeWidth={2} />
+                  </div>
+                  <div>
+                    <h2 className="section-title" style={{ fontSize: 22, marginBottom: 8 }}>
+                      The First Path
+                    </h2>
+                    <p className="muted" style={{ margin: '0 0 14px' }}>
+                      Ten gentle moments for beginners — the inner life through ordinary human
+                      experience. No group required.
+                    </p>
+                    <button
+                      type="button"
+                      className="primary-btn"
+                      onClick={() => setTab('firstpath')}
+                    >
+                      Start The First Path
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <motion.div className="card universal-hope-home-cta" style={{ marginTop: 16 }}>
+                <div style={{ display: 'flex', alignItems: 'flex-start', gap: 14 }}>
+                  <div className="brand-icon cta-icon cta-icon--hope" aria-hidden>
+                    <Heart size={24} strokeWidth={2} />
+                  </div>
+                  <div>
+                    <h2 className="section-title" style={{ fontSize: 22, marginBottom: 8 }}>
+                      Universal hope
+                    </h2>
+                    <p className="muted" style={{ margin: '0 0 14px' }}>
+                      {soften(
+                        'Why love waits for us to ask, who the stories honour, and how hope reaches those who cannot speak — in plain language.',
+                      )}
+                    </p>
+                    <button
+                      type="button"
+                      className="primary-btn"
+                      onClick={() => setTab('hope')}
+                    >
+                      Explore universal hope
+                    </button>
+                  </div>
+                </div>
+              </motion.div>
 
               <div className="card our-story-home-cta">
                 <h2 className="section-title" style={{ fontSize: 22, marginBottom: 8 }}>
@@ -385,7 +548,7 @@ function App() {
                 </h2>
                 <p className="muted" style={{ margin: '0 0 14px' }}>
                   {soften(
-                    'Identity, manifesto, three journeys, Quiet Mode, ethics, and a soft path to launch — written for the whole world.',
+                    'Identity, manifesto, four journeys, Quiet Mode, ethics, and a soft path to launch — written for the whole world.',
                   )}
                 </p>
                 <button
@@ -404,7 +567,7 @@ function App() {
                   </div>
                   <div>
                     <h2 className="section-title" style={{ fontSize: 22, marginBottom: 8 }}>
-                      {quietMode ? 'Walking with kindness' : 'Walking With Jesus'}
+                      {quietMode ? UI_LABELS.pathSectionQuiet : UI_LABELS.pathSection}
                     </h2>
                     <p className="muted" style={{ margin: '0 0 14px' }}>
                       {soften(
@@ -432,9 +595,8 @@ function App() {
                       Life Mirror
                     </h2>
                     <p className="muted" style={{ margin: '0 0 14px' }}>
-                      {soften(
-                        'Name what feels heavy and where it shows up — get a calm truth, a Jesus-centred insight, one grounding action, and an optional short prayer.',
-                      )}
+                      A guided pause in 1–3 minutes — notice what you feel, what you need, and
+                      one small step. No judgement. Works for everyone.
                     </p>
                     <button
                       type="button"
@@ -449,28 +611,26 @@ function App() {
 
               <div className="grid-2" style={{ marginTop: 16 }}>
                 <FeatureCard
-                  title={soften('Jesus-centred')}
+                  title={soften('Love-centred')}
                   text={soften(
-                    'Know God through the life, compassion and teaching of Jesus Christ.',
+                    'Know God through the life, compassion and teaching of Unparalleled Love.',
                   )}
                 />
                 <FeatureCard
-                  title={quietMode ? 'Quiet courage' : 'Mary as model'}
-                  text={
-                    quietMode
-                      ? 'Learn trust, humility and courage through a mother’s faithful example.'
-                      : 'Learn trust, humility and courage through Mary’s faithful example.'
-                  }
+                  title={quietMode ? 'Quiet courage' : 'A faithful mother'}
+                  text={soften(
+                    'Learn trust, humility and courage through a faithful mother’s example.',
+                  )}
                 />
                 <FeatureCard
-                  title={quietMode ? 'Community faith' : 'Apostolic faith'}
+                  title={quietMode ? 'Community path' : 'Companions on the path'}
                   text={soften(
                     'Explore faith through witness, friendship, service and hope.',
                   )}
                 />
                 <FeatureCard
                   title="Daily wisdom"
-                  text={soften('Apply Christian love to ordinary life situations.')}
+                  text={soften('Apply universal love to ordinary life situations.')}
                 />
               </div>
 
@@ -478,7 +638,7 @@ function App() {
                 <h2 className="section-title">Mission</h2>
                 <p className="muted">
                   {soften(
-                    'To help people discover Jesus Christ through love, prayer, reflection and everyday kindness, in a way that is simple, peaceful and welcoming to all.',
+                    'To help people discover Unparalleled Love through prayer, reflection and everyday kindness, in a way that is simple, peaceful and welcoming to all.',
                   )}
                 </p>
                 <span className="badge">
@@ -528,15 +688,60 @@ function App() {
             </motion.div>
           ) : null}
 
+          {tab === 'hope' ? (
+            <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}>
+              <UniversalHope onOpenPrayer={() => setTab('prayer')} />
+            </motion.div>
+          ) : null}
+
           {tab === 'jesus' ? (
             <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}>
               <WalkingWithJesus moments={jesusPathMoments} />
             </motion.div>
           ) : null}
 
+          {tab === 'starthere' ? (
+            <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}>
+              <StartHere
+                mode={experienceMode}
+                showModeToggle
+                onModeChange={setExperienceMode}
+              />
+            </motion.div>
+          ) : null}
+
+          {tab === 'storypaths' ? (
+            <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}>
+              <StoryPaths
+                mode={experienceMode}
+                showModeToggle
+                onModeChange={setExperienceMode}
+                initialStoryId={storyPathsIntent.storyId ?? null}
+                initialTag={storyPathsIntent.tag ?? null}
+                onIntentHandled={() => setStoryPathsIntent({})}
+              />
+            </motion.div>
+          ) : null}
+
           {tab === 'mirror' ? (
             <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}>
-              <LifeMirror />
+              <LifeMirror
+                mode={experienceMode}
+                showModeToggle
+                onModeChange={setExperienceMode}
+                onSave={handleLifeMirrorSave}
+              />
+            </motion.div>
+          ) : null}
+
+          {tab === 'firstpath' ? (
+            <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}>
+              <FirstPath
+                mode={experienceMode}
+                showModeToggle
+                onModeChange={setExperienceMode}
+                onSave={handleFirstPathSave}
+              />
             </motion.div>
           ) : null}
 
@@ -622,75 +827,18 @@ function App() {
           {tab === 'prayer' ? (
             <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}>
               <div className="card">
-                <h2 className="section-title">
-                  {quietMode ? 'Personalised reflection builder' : 'Personalised prayer builder'}
-                </h2>
-
-                <div className="form-grid">
-                  <label>
-                    {quietMode ? 'Address your words to' : 'Address prayer to'}
-                    <input
-                      value={addressTo}
-                      onChange={(event) => setAddressTo(event.target.value)}
-                      placeholder={
-                        quietMode ? 'Love, kindness, the sacred…' : 'God, Lord, Jesus...'
-                      }
-                      autoComplete="off"
-                    />
-                  </label>
-
-                  <label>
-                    Audience
-                    <select
-                      value={ageGroup}
-                      onChange={(event) => setAgeGroup(event.target.value)}
-                    >
-                      {PRAYER_AGE_GROUPS.map((item) => (
-                        <option key={item} value={item}>
-                          {item}
-                        </option>
-                      ))}
-                    </select>
-                  </label>
-
-                  <label>
-                    Feeling
-                    <select value={mood} onChange={(event) => setMood(event.target.value)}>
-                      {PRAYER_MOODS.map((item) => (
-                        <option key={item} value={item}>
-                          {item}
-                        </option>
-                      ))}
-                    </select>
-                  </label>
-                </div>
-
-                <label style={{ display: 'block', marginTop: 15 }}>
-                  Situation
-                  <textarea
-                    value={situation}
-                    onChange={(event) => setSituation(event.target.value)}
-                    placeholder="Example: I am worried about my family, work, exams, health, forgiveness..."
-                  />
-                </label>
-
-                <div className="timer-buttons">
-                  <button
-                    type="button"
-                    className={length === 'short' ? 'primary-btn' : 'secondary-btn'}
-                    onClick={() => setLength('short')}
-                  >
-                    Short prayer
-                  </button>
-                  <button
-                    type="button"
-                    className={length === 'long' ? 'primary-btn' : 'secondary-btn'}
-                    onClick={() => setLength('long')}
-                  >
-                    Longer prayer
-                  </button>
-                </div>
-
+                <ReflectionBuilder
+                  quietMode={quietMode}
+                  mode={experienceMode}
+                  addressTo={addressTo}
+                  onAddressToChange={setAddressTo}
+                  situation={situation}
+                  onSituationChange={setSituation}
+                  length={length}
+                  onLengthChange={setLength}
+                  onBuiltTextChange={setBuiltReflectionText}
+                  showBuiltOutput={!contemplativePrayer}
+                >
                 <div className="timer-buttons" style={{ marginTop: 18 }}>
                   <button
                     type="button"
@@ -723,11 +871,7 @@ function App() {
                     prayerText={displayPrayer}
                     autoAdvance={contemplativeAuto}
                   />
-                ) : (
-                  <div className="prayer-output" role="status">
-                    {displayPrayer}
-                  </div>
-                )}
+                ) : null}
 
                 <div className="timer-buttons">
                   <button type="button" className="primary-btn" onClick={handleSavePrayer}>
@@ -737,6 +881,7 @@ function App() {
                     {quietMode ? 'Copy text' : 'Copy prayer'}
                   </button>
                 </div>
+                </ReflectionBuilder>
 
                 <p className="footer-note" style={{ marginTop: 16 }}>
                   {soften(

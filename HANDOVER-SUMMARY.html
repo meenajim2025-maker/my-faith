@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>My Faith — Handover Summary</title>
+  <style>
+    :root {
+      --ink: #1a2332;
+      --muted: #4a5568;
+      --accent: #3d6b8c;
+      --border: #d8e2ec;
+      --bg: #f7f9fc;
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: "Segoe UI", system-ui, sans-serif;
+      line-height: 1.55;
+      color: var(--ink);
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 3rem;
+      background: var(--bg);
+    }
+    h1 { font-size: 1.75rem; color: var(--accent); margin-bottom: 0.25rem; }
+    h2 {
+      font-size: 1.15rem;
+      margin-top: 2rem;
+      padding-bottom: 0.35rem;
+      border-bottom: 2px solid var(--accent);
+    }
+    h3 { font-size: 1rem; margin-top: 1.25rem; }
+    .meta { color: var(--muted); font-size: 0.95rem; margin-bottom: 1.5rem; }
+    .callout {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--accent);
+      padding: 1rem 1.25rem;
+      margin: 1rem 0;
+      border-radius: 6px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.92rem;
+      background: #fff;
+      margin: 0.75rem 0 1rem;
+    }
+    th, td {
+      border: 1px solid var(--border);
+      padding: 0.5rem 0.65rem;
+      text-align: left;
+      vertical-align: top;
+    }
+    th { background: #e8f0f6; }
+    code, pre {
+      font-family: Consolas, monospace;
+      font-size: 0.85rem;
+      background: #eef2f7;
+      border-radius: 4px;
+    }
+    pre {
+      padding: 0.75rem 1rem;
+      overflow-x: auto;
+      white-space: pre-wrap;
+    }
+    ul { padding-left: 1.25rem; }
+    li { margin: 0.35rem 0; }
+    .print-hint {
+      background: #fff3cd;
+      border: 1px solid #e6c200;
+      padding: 0.75rem 1rem;
+      border-radius: 6px;
+      margin-bottom: 1.5rem;
+    }
+    @media print {
+      body { background: #fff; padding: 0.5in; }
+      .print-hint { display: none; }
+      h2 { page-break-after: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <p class="print-hint"><strong>Save as PDF:</strong> Press <kbd>Ctrl+P</kbd> → choose <strong>Save as PDF</strong> → Save.</p>
+
+  <h1>My Faith — Handover Summary</h1>
+  <p class="meta">
+    <strong>Version 2.0</strong> · Last updated 17 May 2026<br />
+    Folder: <code>C:\Users\reias\OneDrive\Desktop\My Faith\my-faith</code><br />
+    Live site: <a href="https://my-faith.vercel.app">https://my-faith.vercel.app</a>
+  </p>
+
+  <div class="callout">
+    <strong>What it is:</strong> A gentle story-led wellbeing app — pause, honesty, forgiveness, hope — for everyone including beginners. Story Paths, Life Mirror, First Path, reflection builder. Not emergency or clinical care.
+  </div>
+
+  <h2>1. Welcoming spiritual language</h2>
+  <table>
+    <thead><tr><th>Instead of…</th><th>The app says…</th></tr></thead>
+    <tbody>
+      <tr><td>Jesus</td><td><strong>Unparalleled Love</strong></td></tr>
+      <tr><td>Christ</td><td><strong>Love Himself</strong></td></tr>
+      <tr><td>Gospels</td><td><strong>the sacred stories</strong></td></tr>
+      <tr><td>Gita</td><td><strong>the Dialogue of Courage</strong></td></tr>
+      <tr><td>Upanishads</td><td><strong>the Wisdom of Stillness</strong></td></tr>
+      <tr><td>Mary</td><td><strong>a faithful mother</strong></td></tr>
+      <tr><td>Apostles</td><td><strong>companions on the path</strong></td></tr>
+      <tr><td>Walking with Jesus</td><td><strong>Path of Unparalleled Love</strong></td></tr>
+    </tbody>
+  </table>
+  <p><strong>Quiet mode</strong> softens labels further. Source: <code>src/data/spiritualLanguage.js</code></p>
+
+  <h2>2. Main product themes</h2>
+  <ul>
+    <li>Universal love — one love, many paths</li>
+    <li>God’s image in humanity — love waits for honest <strong>asking</strong></li>
+    <li>Honour women, the poor, the overlooked — not the powerful</li>
+    <li>Hope for those who <strong>cannot ask</strong> (children, illness, oppression, grief)</li>
+    <li>Hope stronger than despair — real help includes safeguarding and care</li>
+  </ul>
+
+  <h2>3. Features built (May 2026 checkpoint)</h2>
+  <ul>
+    <li><strong>Home</strong> — “Life gets noisy” opening + 7 feeling buttons → stories / Start Here / First Path</li>
+    <li><strong>Story Paths</strong> — 1 live story (“The Message You Should Not Send”); more planned</li>
+    <li><strong>Start Here</strong> — guided entry flow on home + tab</li>
+    <li><strong>Life Mirror 2.0</strong> — story before questions; tensions on steps</li>
+    <li><strong>The First Path</strong> — 10 lessons, each opens with a scene</li>
+    <li><strong>Reflection builder</strong> — choose need (apologise, forgive, courage, etc.) then words</li>
+    <li><strong>Daily gentle step</strong> — rotating test + tension in banner</li>
+    <li>Universal hope · Path of Unparalleled Love · scenarios · meditation · journal · quiet mode · PWA</li>
+  </ul>
+
+  <h2>4. Run locally (Windows)</h2>
+  <pre>cd "C:\Users\reias\OneDrive\Desktop\My Faith\my-faith"
+npm install
+npm run dev</pre>
+  <p>Open <strong>http://localhost:5173/</strong></p>
+
+  <h2>5. Deploy</h2>
+  <p>Vercel: <code>.\scripts\deploy-vercel.ps1</code> — set <code>VITE_API_BASE_URL</code> when API is live. Never commit <code>.env</code> files.</p>
+
+  <h2>6. Key documents in the project</h2>
+  <ul>
+    <li><code>HANDOVER-SUMMARY.md</code> — full text version of this summary</li>
+    <li><code>HANDOVER.md</code> — short notes for the next coding session</li>
+    <li><code>CONTENT-CANON.md</code> — content rules</li>
+    <li><code>LIVING-LIBRARY.md</code> — content growth plan</li>
+  </ul>
+
+  <h2>7. Still to do</h2>
+  <ol>
+    <li>Finish remaining Story Paths (placeholders in app)</li>
+    <li>Redeploy Vercel after local testing</li>
+    <li>Push to GitHub if not done</li>
+    <li>Public API + CORS for production</li>
+    <li>Update database seed if using API</li>
+    <li>Safeguarding review before healthcare use</li>
+  </ol>
+
+  <h2>8. Safety</h2>
+  <p>Supports reflection only — not therapy, emergency care, or clinical diagnosis. Do not use real patient identifiers in demos. Clinical safety and governance review needed before NHS or trial use.</p>
+
+  <h2>9. One-paragraph summary</h2>
+  <p class="callout">
+    My Faith is a gentle story-led wellbeing app for pause, honesty, forgiveness, and hope — with interactive Story Paths, Life Mirror, First Path, and an outcome-based reflection builder. Welcoming language for all backgrounds. React/Vite, optional Docker API, Vercel. Not for emergencies; safeguarding review before clinical use.
+  </p>
+
+  <p class="meta" style="margin-top: 2rem;">End of handover summary · My Faith project</p>
+</body>
+</html>
