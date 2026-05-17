@@ -1,4 +1,5 @@
 import { apiClient } from './apiClient.js'
+import { applySpiritualDisplayText } from '../data/spiritualLanguage.js'
 
 function asString(value) {
   if (value == null) return ''
@@ -118,10 +119,76 @@ export async function loadPublishedContentFromApi() {
     ])
 
   return {
-    faithTopics: faithRows.map(mapFaithTopic),
-    lifeScenarios: scenarioRows.map(mapLifeScenario),
-    meditations: meditationRows.map(mapMeditation),
-    chants: chantRows.map(mapChant),
-    dailyReflections: reflectionRows.map(mapDailyReflection),
+    faithTopics: faithRows.map((row) => spiritualizeFaithTopic(mapFaithTopic(row))),
+    lifeScenarios: scenarioRows.map((row) => spiritualizeLifeScenario(mapLifeScenario(row))),
+    meditations: meditationRows.map((row) => spiritualizeMeditation(mapMeditation(row))),
+    chants: chantRows.map((row) => spiritualizeChant(mapChant(row))),
+    dailyReflections: reflectionRows.map((row) =>
+      spiritualizeDailyReflection(mapDailyReflection(row)),
+    ),
+  }
+}
+
+/** @param {string} value */
+function spiritualize(value) {
+  return applySpiritualDisplayText(value)
+}
+
+/** @param {ReturnType<typeof mapFaithTopic>} topic */
+function spiritualizeFaithTopic(topic) {
+  return {
+    ...topic,
+    title: spiritualize(topic.title),
+    plain: spiritualize(topic.plain),
+    teenager: spiritualize(topic.teenager),
+    adult: spiritualize(topic.adult),
+    older: spiritualize(topic.older),
+    explorer: spiritualize(topic.explorer),
+    reflection: spiritualize(topic.reflection),
+    theme: spiritualize(topic.theme),
+  }
+}
+
+/** @param {ReturnType<typeof mapLifeScenario>} scenario */
+function spiritualizeLifeScenario(scenario) {
+  return {
+    ...scenario,
+    title: spiritualize(scenario.title),
+    trigger: spiritualize(scenario.trigger),
+    principle: spiritualize(scenario.principle),
+    steps: scenario.steps.map((step) => spiritualize(step)),
+    prayer: spiritualize(scenario.prayer),
+  }
+}
+
+/** @param {ReturnType<typeof mapMeditation>} meditation */
+function spiritualizeMeditation(meditation) {
+  return {
+    ...meditation,
+    title: spiritualize(meditation.title),
+    theme: spiritualize(meditation.theme),
+    script: spiritualize(meditation.script),
+  }
+}
+
+/** @param {ReturnType<typeof mapChant>} chant */
+function spiritualizeChant(chant) {
+  return {
+    ...chant,
+    title: spiritualize(chant.title),
+    line: spiritualize(chant.line),
+    meaning: spiritualize(chant.meaning),
+  }
+}
+
+/** @param {ReturnType<typeof mapDailyReflection>} reflection */
+function spiritualizeDailyReflection(reflection) {
+  return {
+    ...reflection,
+    title: spiritualize(reflection.title),
+    theme: spiritualize(reflection.theme),
+    text: spiritualize(reflection.text),
+    action: spiritualize(reflection.action),
+    prayer: spiritualize(reflection.prayer),
   }
 }

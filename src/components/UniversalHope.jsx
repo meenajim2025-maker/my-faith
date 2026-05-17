@@ -10,14 +10,14 @@ import {
   whyLoveWaits,
 } from '../data/universalHope.js'
 import { useCalmPreferences } from '../context/CalmPreferencesContext.jsx'
-import { applyQuietText } from '../services/quietMode.js'
+import { displaySpiritualText } from '../data/spiritualLanguage.js'
 
 /**
  * @param {{ onOpenPrayer?: () => void }} props
  */
 export default function UniversalHope({ onOpenPrayer }) {
   const { quietMode } = useCalmPreferences()
-  const s = (text) => (quietMode ? applyQuietText(text) : text)
+  const s = (text) => displaySpiritualText(text, quietMode)
 
   return (
     <motion.div

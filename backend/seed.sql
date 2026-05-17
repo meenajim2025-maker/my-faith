@@ -4,7 +4,7 @@ VALUES
 (
   'who-is-god',
   'Who is God?',
-  'God is the source of life, love, truth and goodness. Christians believe God is not distant, but lovingly close to every person.',
+  'God is the source of life, love, truth and goodness — not distant, but lovingly close to every person.',
   'God is not just a rule-maker. God is the loving source of your life and dignity.',
   'God gives meaning, moral direction and hope in the middle of ordinary responsibilities.',
   'God is the faithful presence who has walked with you through every season of life.',
@@ -15,26 +15,26 @@ VALUES
 ),
 (
   'who-is-jesus',
-  'Who is Jesus Christ?',
-  'Christians believe Jesus is the Son of God. He shows us what God is like: merciful, truthful, courageous, gentle and close to the suffering.',
-  'Jesus shows strength without cruelty and kindness without weakness.',
-  'Jesus gives a pattern for living with integrity, compassion and courage.',
-  'Jesus remains close in memory, suffering, gratitude and hope.',
-  'A good first step is to read one short Gospel story and ask: what kind of person is Jesus?',
-  'To know Jesus is to learn how to love without losing truth.',
-  'Jesus Christ',
+  'Who is Unparalleled Love?',
+  'Love Himself is how many people name God made visible — merciful, truthful, courageous, gentle and close to the suffering.',
+  'Unparalleled Love shows strength without cruelty and kindness without weakness.',
+  'Unparalleled Love gives a pattern for living with integrity, compassion and courage.',
+  'Unparalleled Love remains close in memory, suffering, gratitude and hope.',
+  'A good first step is to read one short story from the sacred stories and ask: what kind of love is this?',
+  'To know Unparalleled Love is to learn how to love without losing truth.',
+  'Unparalleled Love',
   2
 ),
 (
   'mary',
-  'Why Mary matters',
-  'Mary is honoured because she trusted God and pointed people towards Jesus. She is a model of humility, courage and quiet strength.',
-  'Mary teaches that quiet courage can change the world.',
-  'Mary shows trust, patience and love in uncertain circumstances.',
-  'Mary is a companion in prayer, tenderness and hope.',
-  'Mary can be understood as a human example of deep trust and faithful love.',
-  'Mary teaches us to listen deeply and say yes to goodness.',
-  'Mary',
+  'Why a faithful mother matters',
+  'A faithful mother is honoured because she trusted God and pointed people towards Unparalleled Love. She is a model of humility, courage and quiet strength.',
+  'A faithful mother teaches that quiet courage can change the world.',
+  'A faithful mother shows trust, patience and love in uncertain circumstances.',
+  'A faithful mother is a companion in prayer, tenderness and hope.',
+  'A faithful mother can be understood as a human example of deep trust and faithful love.',
+  'A faithful mother teaches us to listen deeply and say yes to goodness.',
+  'A faithful mother',
   3
 );
 
@@ -47,7 +47,7 @@ VALUES
   'You feel disrespected and want to react quickly.',
   'Gentleness with truth',
   '["Pause before speaking.", "Ask: will my words heal or harm?", "Choose one calm sentence.", "Return later if needed."]'::jsonb,
-  'Lord, help me slow down. Give me words that are honest, calm and kind.',
+  'Sacred Love, help me slow down. Give me words that are honest, calm and kind.',
   1
 ),
 (
@@ -64,8 +64,8 @@ VALUES
   'When faith feels far away',
   'You want to believe, but feel dry, unsure or distant.',
   'Hope',
-  '["Be honest with God.", "Use one short prayer.", "Read one Gospel moment.", "Speak with a trusted person."]'::jsonb,
-  'Jesus, if I feel far from You, meet me gently. Help me take one small step.',
+  '["Be honest with God.", "Use one short prayer.", "Read one moment from the sacred stories.", "Speak with a trusted person."]'::jsonb,
+  'Unparalleled Love, if I feel far from You, meet me gently. Help me take one small step.',
   3
 );
 
@@ -95,7 +95,7 @@ VALUES
 (
   'kyrie',
   'Kyrie eleison',
-  'Lord, have mercy',
+  'Sacred Love, have mercy',
   'Kyrie eleison',
   1
 ),
@@ -124,16 +124,16 @@ VALUES
   'all',
   'Before speaking today, pause and ask: will this bring peace, truth and kindness?',
   'Choose one conversation today where you listen fully before replying.',
-  'Jesus, teach me to love with patience, speak with kindness and act with wisdom. Amen.',
+  'Unparalleled Love, teach me to love with patience, speak with kindness and act with wisdom. Amen.',
   1
 ),
 (
   'quiet-trust',
   'Quiet trust',
-  'Mary',
+  'A faithful mother',
   'all',
-  'Mary shows us that quiet trust can be stronger than noise, fear or control.',
+  'A faithful mother shows us that quiet trust can be stronger than noise, fear or control.',
   'Offer one worry to God today and take one practical step with calmness.',
-  'Lord, give me a trusting heart and the courage to say yes to what is good. Amen.',
+  'Sacred Love, give me a trusting heart and the courage to say yes to what is good. Amen.',
   2
 );

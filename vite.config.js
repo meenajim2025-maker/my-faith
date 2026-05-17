@@ -11,7 +11,7 @@ export default defineConfig({
         name: 'My Faith',
         short_name: 'My Faith',
         description:
-          'A gentle Christian spirituality app for prayer, reflection and daily peace.',
+          'A gentle path into spirituality — prayer, reflection, story, and daily peace for everyone.',
         theme_color: '#1e293b',
         background_color: '#fff7ed',
         display: 'standalone',

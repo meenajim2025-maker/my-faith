@@ -47,9 +47,10 @@ export default function WalkingWithJesus({ moments }) {
     )
   }
 
-  const momentTitle = quietMode
-    ? lovePathQuietTitles[moment.id] || moment.title
-    : moment.title
+  const momentTitle = displayText(
+    quietMode ? lovePathQuietTitles[moment.id] || moment.title : moment.title,
+    quietMode,
+  )
   const storyText = displayText(moment.story, quietMode)
   const reflectionText = displayText(moment.reflection, quietMode)
   const actText = displayText(moment.smallAct, quietMode)
@@ -100,7 +101,7 @@ export default function WalkingWithJesus({ moments }) {
 
           <section className="jesus-path-block" aria-label="Question">
             <span className="jesus-path-label">A human question</span>
-            <p className="jesus-path-question">{moment.question}</p>
+            <p className="jesus-path-question">{displayText(moment.question, quietMode)}</p>
           </section>
 
           <section className="reflection" aria-label="Reflection">

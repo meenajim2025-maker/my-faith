@@ -64,3 +64,21 @@ export function applySpiritualDisplayText(text) {
 
   return s.replace(/\s{2,}/g, ' ').trim()
 }
+
+/**
+ * Standard display pipeline: welcoming names, then optional Quiet Mode.
+ * @param {string} text
+ * @param {boolean} [quietMode]
+ * @returns {string}
+ */
+export function displaySpiritualText(text, quietMode = false) {
+  const base = applySpiritualDisplayText(text)
+  if (!quietMode) return base
+  let s = base
+  s = s.replace(/\bUnparalleled Love\b/g, 'the gift of love')
+  s = s.replace(/\bLove Himself\b/gi, 'love made visible')
+  s = s.replace(/\bGod\b/g, 'the sacred')
+  s = s.replace(/\bSacred Love\b/g, 'love')
+  s = s.replace(/\bAmen\b\.?/gi, 'So may it be.')
+  return s.replace(/\s{2,}/g, ' ').trim()
+}

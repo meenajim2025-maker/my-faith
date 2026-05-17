@@ -15,14 +15,14 @@ import {
   worldProblems,
 } from '../data/phase4Content.js'
 import { useCalmPreferences } from '../context/CalmPreferencesContext.jsx'
-import { applyQuietText } from '../services/quietMode.js'
+import { displaySpiritualText } from '../data/spiritualLanguage.js'
 
 /**
  * @param {{ onNavigate: (tab: string) => void, onOpenPromise: () => void }} props
  */
 export default function OurStory({ onNavigate, onOpenPromise }) {
   const { quietMode } = useCalmPreferences()
-  const s = (text) => (quietMode ? applyQuietText(text) : text)
+  const s = (text) => displaySpiritualText(text, quietMode)
 
   return (
     <div className="our-story">

@@ -654,7 +654,7 @@ function App() {
                   <div className="grid-2">
                     {dailyReflections.map((item) => (
                       <div className="card" key={item.id}>
-                        <h3 style={{ margin: '0 0 8px', fontSize: 18 }}>{item.title}</h3>
+                        <h3 style={{ margin: '0 0 8px', fontSize: 18 }}>{soften(item.title)}</h3>
                         {item.theme ? (
                           <p className="muted" style={{ margin: '0 0 8px', fontSize: 13 }}>
                             {soften(item.theme)}
@@ -754,7 +754,7 @@ function App() {
               {faithTopics.map((topic) => (
                 <div className="card" key={topic.id}>
                   <h2 className="section-title" style={{ fontSize: 22, marginBottom: 8 }}>
-                    {topic.title}
+                    {soften(topic.title)}
                   </h2>
                   <p className="muted">{soften(topic.plain)}</p>
 
@@ -800,7 +800,7 @@ function App() {
                       }}
                     >
                       <ShieldCheck size={21} aria-hidden />
-                      {scenario.title}
+                      {soften(scenario.title)}
                     </h2>
                     <p className="muted">{soften(scenario.trigger)}</p>
 
@@ -962,7 +962,7 @@ function App() {
 
                 {meditations.map((meditation) => (
                   <div className="small-card" key={meditation.id}>
-                    <h3 style={{ margin: '0 0 6px' }}>{meditation.title}</h3>
+                    <h3 style={{ margin: '0 0 6px' }}>{soften(meditation.title)}</h3>
                     <p className="muted">
                       {meditation.duration} minutes · {soften(meditation.theme)}
                     </p>
@@ -978,7 +978,7 @@ function App() {
 
                 {chants.map((chant) => (
                   <div className="chant" key={chant.id}>
-                    <strong>{chant.title}</strong>
+                    <strong>{soften(chant.title)}</strong>
                     <p style={{ margin: '6px 0 0' }}>{soften(chant.line)}</p>
                     <small className="muted">{soften(chant.meaning)}</small>
                   </div>
